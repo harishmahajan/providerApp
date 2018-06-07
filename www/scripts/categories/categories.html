@@ -1,0 +1,64 @@
+<ion-view view-title="Categories">
+	<ion-nav-buttons side="right">
+		<button class="button button-clear icon ion-android-add" ng-click="vm.addNewCategoryModal()"></button>
+	</ion-nav-buttons>
+	<ion-content>
+		<ion-list can-swipe="true">
+			<ion-item ng-repeat="category in vm.categories">
+				<div ng-click="vm.showProducts(category)">
+					<div class="item-thumbnail-left">
+						<img ng-src="{{category.thumb||'images/categoryDefault.jpg'}}">
+						<h2 class="text-medium bold">{{category.title}}</h2>
+						<div class="row row-no-padding padding-vertical">
+							<div class="col">
+								Varieties:
+							</div>
+							<div class="col-60">
+								<span ng-repeat="variety in category.varieties">
+									{{variety.name}}
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--<button class="button button-small icon ion-close-circled" ng-click="vm.removeCategory(category.title)"></button>-->
+				</div>
+				<div class="cart-options">
+					<div class="option" ng-click="vm.removeCategory(category.title)">
+						<i class="icon ion-android-close assertive border-assertive"></i>
+					</div>
+					<div class="option margin-top-10" ng-click="vm.editCategoryModal(category)">
+						<i class="icon ion-edit"></i>
+					</div>
+					<div class="option margin-top-10" ng-click="vm.createHappyHour(category)">
+						<i class="icon ion-ios-pricetag-outline"></i>
+					</div>
+				</div>
+				<!--<ion-option-button class="button-balanced" ng-click="vm.editCategoryModal(category)">-->
+				<!--Edit-->
+				<!--</ion-option-button>-->
+				<!--<ion-option-button class="button-assertive" ng-click="vm.removeCategory(category.title)">-->
+				<!--Delete-->
+				<!--</ion-option-button>-->
+			</ion-item>
+		</ion-list>
+
+		<div ng-if="vm.categories.length==0">
+			<div class="row margin-top-30">
+				<div class="col text-center text-medium gray">
+					No Categories yet
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col text-center text-xxx-large stable">
+					<span ng-click="vm.addNewCategoryModal()">Create one now</span>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+	<ion-footer-bar class="bar-calm" align-title="center" ng-if="vm.categories.length" ng-click="vm.createHappyHour(vm.categories)">
+		<h1 class="title">Special Offers</h1>
+	</ion-footer-bar>
+	<!--<div class="floatButton button button-icon button-calm icon ion-ios-pricetags-outline" style="position: absolute; bottom: 25px; right:50px;"
+		ng-if="vm.categories.length" ng-click="vm.createHappyHour(vm.categories)">
+		</div>-->
+</ion-view>

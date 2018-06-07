@@ -1,0 +1,68 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-stable">
+		<h1 class="title">Add New Offer</h1>
+	</ion-header-bar>
+	<ion-content class="has-header has-footer">
+		<div class="content-inner">
+			<div class="row row-no-padding margin-bottom-10">
+				<div class="col">
+					<div class="list list-inset margin-top-0 transparent-bg">
+						<label class="item item-input login-label transparent-bg">
+							<input class="padding-right-5" type="text" placeholder="Offer Name" ng-model="vm.item.name">
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="list">
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Buy Item
+					</div>
+					<select ng-model="vm.item.buy">
+						<option ng-repeat="b in  vm.profile.menuItems">{{b.title}}</option>
+					</select>
+				</label>
+			</div>
+			<div class="row row-no-padding margin-bottom-10">
+				<div class="col">
+					<div class="list list-inset margin-top-0 transparent-bg">
+						<label class="item item-input login-label transparent-bg">
+							<input class="padding-right-5" type="number" placeholder="Amount To Buy" ng-model="vm.item.buyValue">
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="list">
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Get Item
+					</div>
+					<select ng-model="vm.item.get">
+						<option ng-repeat="g in vm.profile.menuItems">{{g.title}}</option>
+					</select>
+				</label>
+			</div>
+			<div class="row row-no-padding margin-bottom-10">
+				<div class="col">
+					<div class="list list-inset margin-top-0 transparent-bg">
+						<label class="item item-input login-label transparent-bg">
+							<input class="padding-right-5" type="number" placeholder="Amount To Give" ng-model="vm.item.getValue">
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless"
+								  ng-model="vm.item.selected">Featured
+					</ion-checkbox>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+	<ion-footer-bar class="bar-stable" align-title="center" ng-click="vm.add()">
+		<h1 class="title">Create Offer</h1>
+	</ion-footer-bar>
+</ion-modal-view>

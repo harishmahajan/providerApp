@@ -1,0 +1,574 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<button type="button" class="button button-clear icon ion-android-arrow-back" ng-click="em.close(); editProfileForm.$setUntouched();">
+		</button>
+		<h1 class="title">Edit profile</h1>
+
+	</ion-header-bar>
+	<form name="editProfileForm" ng-submit="em.applyEdits()">
+		<ion-content style="background-color: #fafafa">
+			<div class="card" style="min-height:200px; max-height: 200px">
+				<ion-slide-box class="home-hello" ng-if="showRestaurantImageSlider" delegate-handle="editImages">
+					<ion-slide ng-repeat="image in profile.imageURL">
+						<div class="profile-image-div">
+							<img class="profile-image" ng-src="{{image.name}}" style="width:100%; height: 200px" />
+							<button type="button" class="button button-icon icon ion-ios-close-outline remove-image-icon" ng-click="em.removeImage(image)"></button>
+						</div>
+					</ion-slide>
+				</ion-slide-box>
+				<div class="row" ng-if="profile.imageURL.length!=0" style="margin-top: -80px; text-align: right; padding: 10px">
+					<div class="col col-75">
+						<!--<button type="button" class="button button-icon icon ion-ios-plus-outline" ng-click="em.getPicture('restaurant')" style="padding: 1px 6px; border-radius: 5px; background: grey; opacity: 0.5;"></button>-->
+					</div>
+					<div class="col col-25">
+						<button type="button" class="button button-icon icon ion-ios-plus-outline" ng-click="em.getPicture('restaurant')" style="padding: 1px 6px; border-radius: 5px; background: grey; opacity: 0.5;"></button>
+					</div>
+				</div>
+				<div class="row" ng-if="profile.imageURL.length==0">
+					<div class="col text-center" style="margin-top:20%">
+						<button type="button" class="button button-calm button-clear" ng-click="em.getPicture('restaurant')">Upload Business Image
+					</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="card" style="min-height:200px; max-height:200px">
+				<div>
+					<img ng-if="profile.logo" ng-src="{{profile.logo}}" style="width:100%; height:200px" />
+					<!--<button type="button" class="button button-icon icon ion-ios-close-outline" ng-click="em.removeLogo()"></button>-->
+				</div>
+				<div class="text-center" style="margin-top:20%" ng-if="!profile.logo">
+					<button type="button" class="button button-calm button-clear" ng-click="em.getPicture('logo')">Upload Business Logo</button>
+				</div>
+				<div class="row" style="margin-top: -80px; text-align: right; padding: 10px" ng-if="profile.logo">
+					<div class="col col-75">
+						<p class="text-center">Bussiness Logo</p>
+					</div>
+					<div class="col col-25">
+						<button type="button" class="button button-icon icon ion-edit" style="padding: 1px 6px; border-radius: 5px; background: grey; opacity: 0.5;"
+						 ng-click="em.getPicture('logo')">
+							</button>
+					</div>
+				</div>
+			</div>
+			<!--<div class="profile-image-div">
+					<img ng-if="em.profile.logo" ng-src="{{em.profile.logo}}" />
+					<button type="button" class="button button-icon icon ion-ios-close-outline" ng-click="em.removeLogo()"></button>
+				</div>
+				<div class="row">
+					<div class="col text-center">
+						<button type="button" class="button button-calm" ng-click="em.getPicture('logo')" ng-if="!em.profile.logo">Upload Business Logo
+					</button>
+						<button type="button" class="button button-calm" ng-click="em.getPicture('logo')" ng-if="em.profile.logo">Change Business Logo
+					</button>
+					</div>
+				</div>-->
+			</div>
+
+			<div class="card">
+				<div class="list list-inset margin-top-0 margin-bottom-0">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Business Name</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Business Name" name="businessname"
+						   ng-model="profile.storeName"
+						   required ng-change="detectChange('storeName')">
+					</label>
+					<div ng-messages="editProfileForm.businessname.$error" ng-if="editProfileForm.businessname.$invalid && editProfileForm.businessname.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Bussiness name is required!</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Business Description</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Business Description"
+						   ng-model="profile.desc" name="description"
+						   ng-change="detectChange('desc')">
+					</label>
+					<div ng-messages="editProfileForm.description.$error" ng-if="editProfileForm.description.$invalid && editProfileForm.description.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Bussiness Description is required!</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Business Speciality</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Business Speciality"
+						   ng-model="profile.speciality" name="speciality"
+						   ng-change="detectChange('speciality')">
+						   <!--<div ng-messages="editProfileForm.speciality.$error" ng-if="editProfileForm.speciality.$invalid && editProfileForm.speciality.$touched" style="font-size: 12px; color:red">
+							   <span ng-message="required">Bussiness Speciality is required!</span>
+						   </div>-->
+				</label>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Business Telephone</span>
+					<input class="padding-0 border-bottom-lightgray" type="tel" placeholder="Business Telephone"
+						   ng-model="profile.phone" name="telephone"
+						   required ng-change="detectChange('phone')" ng-pattern="/^[0-9]{1,10}$/" maxlength="10" minlength="10">
+					</label>
+					<div ng-messages="editProfileForm.telephone.$error" ng-if="editProfileForm.telephone.$invalid && editProfileForm.telephone.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Bussiness Telephone is required!</span>
+						<span ng-message="pattern">Not a valid telephone number!</span>
+						<span ng-message="minlength">Not a valid telephone number!</span>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="list list-inset margin-top-0 margin-bottom-0">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Minimum Order Value (£)</span>
+					<input class="padding-0 border-bottom-lightgray" type="number" placeholder="Minimum Order Value"
+						   ng-model="profile.min" name="minimum_order" required ng-change="detectChange('min')" min="0" ng-pattern="/^[0-9]{1,10}$/">
+					</label>
+					<div ng-messages="editProfileForm.minimum_order.$error" ng-if="editProfileForm.minimum_order.$invalid && editProfileForm.minimum_order.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Minimum Order is required!</span>
+						<span ng-message="pattern">Not a valid charge</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Minimum Order Value for Delivery (£)</span>
+					<input class="padding-0 border-bottom-lightgray" type="number"
+						   placeholder="Minimum Order Value for Delivery" name="minimum_delivery"
+						   ng-model="profile.minOrder" required ng-change="detectChange('minOrder')" min="0" ng-pattern="/^[0-9]{1,10}$/">
+					</label>
+					<div ng-messages="editProfileForm.minimum_delivery.$error" ng-if="editProfileForm.minimum_delivery.$invalid && editProfileForm.minimum_delivery.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Minimum order for delivery is required!</span>
+						<span ng-message="pattern">Not a valid charge</span>
+					</div>
+				</div>
+				<div class="row" ng-show="profile.postcodes.length" ng-repeat="postcode in profile.postcodes">
+					<div class="col col-50">
+						Postcode: {{postcode.pin}}
+					</div>
+					<div class="col col-40">
+						Charge: £{{postcode.charge}}
+					</div>
+					<div class="col col-10" style="text-align:right">
+						<button type="button" class="button button-calm button-small icon ion-close-circled" ng-click="em.removePostcode(postcode);detectChange('postcodes')"></button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col list list-inset margin-top-0 margin-bottom-0">
+						<label class="item item-input  login-label">
+						<input class="border-bottom-lightgray padding-0" type="text" placeholder="Delivery Postcode"
+							   ng-model="profile.postcode.pin" name="post_code" ng-change="detectChange('postcodes')">
+						</label>
+					</div>
+					<div class="col list list-inset margin-top-0 margin-bottom-0">
+						<label class="item item-input  login-label">
+						<input class="border-bottom-lightgray padding-0" type="number" placeholder="Delivery Charge"
+							   ng-model="profile.postcode.charge" name="delivery_charge" min="0" ng-change="detectChange('postcodes')">
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" style="text-align:right">
+						<button type="button" class="button button-small button-calm" ng-click="em.addPostcode(profile.postcode); profile.postcode={};"
+						 ng-if="profile.postcode.pin">+
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="row">
+					<div class="col gray bold">
+						Address:
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0 ">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Door No.</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Door No."
+						   ng-model="profile.address.door" name="doorno"
+						   required ng-change="detectChange('address', 'door')">
+					</label>
+					<div ng-messages="editProfileForm.doorno.$error" ng-if="editProfileForm.doorno.$invalid && editProfileForm.doorno.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Door no is required!</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0 ">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Address Line 1</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Address Line 1"
+						   ng-model="profile.address.line1" name="address_1"
+						   required ng-change="detectChange('address', 'line1')">
+					</label>
+					<div ng-messages="editProfileForm.address_1.$error" ng-if="editProfileForm.address_1.$invalid && editProfileForm.address_1.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Address line 1 is required!</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0 ">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Address Line 2</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Address Line 2"
+						   ng-model="profile.address.line2" name="address_2"
+						   required ng-change="detectChange('address', 'line2')">
+					</label>
+					<div ng-messages="editProfileForm.address_2.$error" ng-if="editProfileForm.address_1.$invalid && editProfileForm.address_1.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Address line 2 is required!</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0 ">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Address Line 3</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Address Line 3"
+						   ng-model="profile.address.line3" ng-change="detectChange('address', 'line3')">
+				</label>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0 ">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">City</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="City" name="city"
+						   ng-model="profile.address.city" required ng-change="detectChange('address', 'city')">
+					</label>
+					<div ng-messages="editProfileForm.city.$error" ng-if="editProfileForm.city.$invalid && editProfileForm.city.$touched" style="font-size: 12px; color:red">
+						<span ng-message="required">City is required!</span>
+					</div>
+				</div>
+				<div class="list list-inset margin-top-0 margin-bottom-0 ">
+					<label class="item item-input item-floating-label login-label">
+					<span class="input-label gray">Postcode</span>
+					<input class="padding-0 border-bottom-lightgray" type="text" placeholder="Postcode"
+						   ng-model="profile.address.postcode" name="address_post_code"
+						   required ng-change="detectChange('address', 'postcode')">
+					</label>
+					<div ng-messages="editProfileForm.address_post_code.$error" ng-if="editProfileForm.address_post_code.$invalid &&
+					editProfileForm.address_post_code.$touched" style="font-size: 12px; color:red">
+						<span ng-message="required">Postcode is required!</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col text-center">
+						<button type="button" class="button button-calm" ng-click="em.getGeoLocation(); detectChange('map')">Get Location</button>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="row">
+					<div class="col gray bold">
+						Timings:
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Monday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.mon.selected"
+					 ng-change="detectChange('time', 'mon')">
+					</ion-checkbox>
+					<div class="col">
+						<div class="row row-no-padding">
+							<div class="col text-center">
+								<label class="item item-input login-label">
+								<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+									   ng-model="profile.time.mon.opening"
+									   ng-change="detectChange('time', 'mon')">
+							</label>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.mon.closing"
+							   ng-change="detectChange('time', 'mon')">
+						<span ng-if="profile.time.mon.closing<profile.time.mon.opening">(Tue)</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Tuesday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.tue.selected"
+					 ng-change="detectChange('time', 'tue')">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+							   ng-model="profile.time.tue.opening"
+							   ng-change="detectChange('time', 'tue')">
+					</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.tue.closing"
+							   ng-change="detectChange('time', 'tue')">
+						<span ng-if="profile.time.tue.closing<profile.time.tue.opening">(Wed)</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Wednesday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.wed.selected"
+					 ng-change="detectChange('time', 'wed')">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+							   ng-model="profile.time.wed.opening"
+							   ng-change="detectChange('time', 'wed')">
+					</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.wed.closing"
+							   ng-change="detectChange('time', 'wed')">
+						<span ng-if="profile.time.wed.closing<profile.time.wed.opening">(Thu)</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Thursday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.thu.selected"
+					 ng-change="detectChange('time', 'thu')">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+							   ng-model="profile.time.thu.opening"
+							   ng-change="detectChange('time', 'thu')">
+					</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.thu.closing"
+							   ng-change="detectChange('time', 'thu')">
+						<span ng-if="profile.time.thu.closing<profile.time.thu.opening">(Fri)</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Friday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.fri.selected"
+					 ng-change="detectChange('time', 'fri')">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+							   ng-model="profile.time.fri.opening"
+							   ng-change="detectChange('time', 'fri')">
+					</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.fri.closing"
+							   ng-change="detectChange('time', 'fri')">
+						<span ng-if="profile.time.fri.closing<profile.time.fri.opening">(Sat)</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Saturday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.sat.selected"
+					 ng-change="detectChange('time', 'sat')">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+							   ng-model="profile.time.sat.opening"
+							   ng-change="detectChange('time', 'sat')">
+					</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.sat.closing"
+							   ng-change="detectChange('time', 'sat')">
+						<span ng-if="profile.time.sat.closing<profile.time.sat.opening">(Sun)</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Sunday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="profile.time.sun.selected"
+					 ng-change="detectChange('time', 'sun')">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+							   ng-model="profile.time.sun.opening"
+							   ng-change="detectChange('time', 'sun')">
+					</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+						<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+							   ng-model="profile.time.sun.closing"
+							   ng-change="detectChange('time', 'sun')">
+						<span ng-if="profile.time.sun.closing<profile.time.sun.opening">(Mon)</span>
+					</label>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="row">
+					<div class="col gray bold">
+						Service Type:
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="profile.serviceType.pickUp"
+						 ng-change="detectChange('serviceType', 'pickUp')">Collection
+						</ion-checkbox>
+					</div>
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="profile.serviceType.homeDelivery"
+						 ng-change="detectChange('serviceType', 'homeDelivery')">Delivery
+						</ion-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="profile.serviceType.dineIn"
+						 ng-change="detectChange('serviceType', 'dineIn')">Eat-In
+						</ion-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="row">
+					<div class="col gray bold">
+						Acceptable Payment Methods :
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="profile.paymentMethod.cash"
+						 ng-change="detectChange('paymentMethod', 'cash')">Cash
+						</ion-checkbox>
+					</div>
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="profile.paymentMethod.card"
+						 ng-change="detectChange('paymentMethod', 'card')">Card
+						</ion-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="profile.paymentMethod.paypal"
+						 ng-change="detectChange('paymentMethod', 'paypal')">Paypal
+						</ion-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<ion-list>
+					<ion-item class="item-input item-input-inset item-floating-label login-label padding-left-10">
+						<span class="input-label gray">Allergy disclaimer</span>
+						<textarea class="border-lightgray padding-top-5" rows="6" ng-model="profile.allergyDisclaimer" placeholder="Allergy information"
+						 ng-change="detectChange('allergyDisclaimer')" required name="allergyDisclaimer"></textarea>
+						<div ng-messages="editProfileForm.allergyDisclaimer.$error" ng-if="editProfileForm.allergyDisclaimer.$invalid && editProfileForm.allergyDisclaimer.$touched"
+						 style="font-size: 12px; color:red">
+							<span ng-message="required">Allergy disclaimer is required!</span>
+						</div>
+					</ion-item>
+				</ion-list>
+			</div>
+			<div class="card">
+				<ion-list>
+					<ion-item class="item-input item-input-inset item-floating-label login-label padding-left-10">
+						<span class="input-label gray">Additional information</span>
+						<textarea class="border-lightgray padding-top-5" rows="6" ng-model="profile.addInfo" placeholder="Additional information"
+						 ng-change="detectChange('addInfo')"></textarea>
+					</ion-item>
+				</ion-list>
+			</div>
+			<div class="card">
+				<div class="row">
+					<div class="col gray bold">
+						Food Hygiene Rating:
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col text-center">
+						<i class="icon text-xxx-large" ng-click="em.selectRating(0); detectChange('fhr')" ng-class="{'ion-ios-star energized':profile.fhr>=0,'ion-ios-star-outline':profile.fhr<0}"></i>
+					</div>
+					<div class="col text-center">
+						<i class="icon text-xxx-large" ng-click="em.selectRating(1); detectChange('fhr')" ng-class="{'ion-ios-star energized':profile.fhr>=1,'ion-ios-star-outline':profile.fhr<1}"></i>
+					</div>
+					<div class="col text-center">
+						<i class="icon text-xxx-large" ng-click="em.selectRating(2); detectChange('fhr')" ng-class="{'ion-ios-star energized':profile.fhr>=2,'ion-ios-star-outline':profile.fhr<2}"></i>
+					</div>
+					<div class="col text-center">
+						<i class="icon text-xxx-large" ng-click="em.selectRating(3); detectChange('fhr')" ng-class="{'ion-ios-star energized':profile.fhr>=3,'ion-ios-star-outline':profile.fhr<3}"></i>
+					</div>
+					<div class="col text-center">
+						<i class="icon text-xxx-large" ng-click="em.selectRating(4); detectChange('fhr')" ng-class="{'ion-ios-star energized':profile.fhr>=4,'ion-ios-star-outline':profile.fhr<4}"></i>
+					</div>
+					<div class="col text-center">
+						<i class="icon text-xxx-large" ng-click="em.selectRating(5); detectChange('fhr')" ng-class="{'ion-ios-star energized':profile.fhr==5,'ion-ios-star-outline':profile.fhr<5}"></i>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col text-center">0</div>
+					<div class="col text-center">1</div>
+					<div class="col text-center">2</div>
+					<div class="col text-center">3</div>
+					<div class="col text-center">4</div>
+					<div class="col text-center">5</div>
+				</div>
+			</div>
+			<div class="card">
+				<ion-list>
+					<ion-item class="item-divider-2">
+						Choose Cuisines You Offer
+					</ion-item>
+					<ion-item>
+						<div ng-repeat="c in em.cuisines">
+							<ion-checkbox class="checkbox-assertive item-borderless" ng-model="c.checked" ng-checked="c.checked" ng-change="detectChange('cuisines')">{{em.cuisines[$index].title}}
+							</ion-checkbox>
+						</div>
+					</ion-item>
+				</ion-list>
+			</div>
+		</ion-content>
+		<div class="bar bar-footer bar-calm" ng-if="changed">
+			<div class="title" style="text-align:center">
+				<button class="button button-clear" type="submit" ng-click="scope.submit = true">Save Changes</button>
+			</div>
+		</div>
+	</form>
+	<!--<ion-footer-bar class="bar bar-footer bar-calm" style="text-align: center" align-title="center" ng-click="em.applyEdits()">
+		<button class="title button-clear center">Save Changes</button>
+	</ion-footer-bar>-->
+</ion-modal-view>

@@ -1,0 +1,98 @@
+<ion-view class="light-bg">
+	<ion-content>
+		<div class="row">
+			<div class="col text-center text-large bold gray">
+				Local Menus Pro
+			</div>
+		</div>
+		<div class="row padding-top-10 div-centered-80">
+			<div class="col">
+				<button type="button" class="button button-block button-fb button-shadow icon-left margin-0 block-button-maxw" ng-click="lc.facebookSignIn()">                <!--ng-click="lc.facebookSignIn()"-->
+					<i class="icon ion-social-facebook padding-right-30"></i>
+					Login with Facebook
+				</button>
+			</div>
+		</div>
+		<div class="row padding-top-5 div-centered-80">
+			<div class="col">
+				<button type="button" class="button button-block button-google button-shadow icon-left margin-0 block-button-maxw" ng-click="lc.googleSignIn()">                    <!--ng-click="lc.googleSignIn()"-->
+					<i class="icon ion-social-google padding-right-30"></i>
+					Login with Google
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<hr>
+			</div>
+
+			<div class="col col-10">
+				<p class="text-center gray margin-0">OR</p>
+			</div>
+			<div class="col">
+				<hr>
+			</div>
+		</div>
+
+		<form name="loginForm" ng-submit="loginForm.$valid && lc.emailSignIn()">
+			<div class="list margin-bottom-5 div-centered-80">
+				<label class="item item-input item-floating-label no-border border-bottom-lightgray">
+				<span class="input-label gray">E-mail</span>
+				<input type="email" ng-model="lc.user.email" placeholder="Email" name="email" required minlength="10" maxlength="100" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/">
+			</label>
+				<div ng-messages="loginForm.email.$error" ng-if="loginForm.email.$invalid && loginForm.email.$touched">
+					<div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+						Your email must be between 10 and 100 characters long and look like an e-mail address.
+					</div>
+				</div>
+				<label class="item item-input item-floating-label  no-border border-bottom-lightgray">
+				<span class="input-label gray">Password</span>
+				<input type="password" ng-model="lc.user.password" placeholder="Password" required="" minlength="6" name="password"></label>
+				<div ng-messages="loginForm.password.$error" multiple="" ng-if="loginForm.password.$invalid && loginForm.password.$touched">
+					<div ng-message="required">
+						Password is required!
+					</div>
+					<div ng-message="minlength">
+						Your Password must have more than 6 characters
+					</div>
+				</div>
+				<div class="row div-centered-80">
+					<div class="col">
+						<button type="submit" class="button button-block button-calm margin-0 block-button-maxw">Login with Email</button>
+					</div>
+				</div>
+		</form>
+
+		<div class="row">
+			<div class="col">
+				<hr>
+			</div>
+		</div>
+		<div class="row row-no-padding">
+			<div class="col text-center">
+				Not registered yet?
+			</div>
+		</div>
+		<div class="row div-centered-80">
+			<div class="col">
+				<button type="button" class="button button-block button-outline button-calm margin-0 block-button-maxw" ng-click="lc.createAccount()">
+					Sign up
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col text-center gray">
+				By logging into your account, you agree to our <span class="bold" ui-sref="terms">Terms and Conditions</span>,
+				<span class="bold" ui-sref="privacy">Privacy Policy</span> and <span class="bold" ui-sref="cookies">Cookie Policy</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button type="button" class="button button-block button-dark button-shadow icon-left" ng-click="lc.fakeSignIn()">
+					<i class="icon ion-knife padding-right-30"></i>
+					Fake Login
+				</button>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,437 @@
+.button-shadow{
+	box-shadow: 1px 2px 5px #666;
+	border-radius: 5px;
+}
+.large-icons{
+	font-size: 50px;
+}
+.row-icon{
+	font-size: 40px;
+}
+.transparent-bg{
+	background-color: transparent !important;
+}
+.margin-top-60{
+	margin-top: 60px !important;
+}
+.border-top-gray-dotted{
+	border-top: 1px #888;
+	border-top-style: dashed;
+}
+.float-right{
+	float: right;
+}
+.light-gray-bg{
+	background-color: #d6d6d6;
+	color: #888;
+}
+.thumbnail-padding{
+	padding-top: 8px !important;
+	padding-bottom:8px !important;
+}
+.back-button > .back-text > .previous-title{
+	display:none !important;
+}
+.back-button > .back-text > .default-title{
+	display:none !important;
+}
+.ellipsis{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.button.button-fb{
+	border-color: transparent;
+	background-color: #3b5998;
+	color: #fff;
+}
+.button.button-fb:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.button.button-fb.active, .button.button-fb.activated {
+	background-color: #3b5998;
+}
+.button.button-fb.button-clear {
+	border-color: transparent;
+	background: none;
+	box-shadow: none;
+	color: #3b5998;
+}
+.button.button-fb.button-icon {
+	border-color: transparent;
+	background: none;
+}
+.button.button-fb.button-outline {
+	border-color: #3b5998;
+	background: transparent;
+	color: #3b5998;
+}
+.button.button-fb.button-outline.active, .button.button-fb.button-outline.activated {
+	background-color: #3b5998;
+	box-shadow: none;
+	color: #fff;
+}
+.button.button-google{
+	border-color: transparent;
+	background-color: #d34836;
+	color: #fff;
+}
+.button.button-google:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.button.button-google.active, .button.button-google.activated {
+	background-color: #d34836;
+}
+.button.button-google.button-clear {
+	border-color: transparent;
+	background: none;
+	box-shadow: none;
+	color: #d34836;
+}
+.button.button-google.button-icon {
+	border-color: transparent;
+	background: none;
+}
+.button.button-google.button-outline {
+	border-color: #d34836;
+	background: transparent;
+	color: #3b5998;
+}
+.button.button-google.button-outline.active, .button.button-google.button-outline.activated {
+	background-color: #d34836;
+	box-shadow: none;
+	color: #fff;
+}
+.valign-parent{
+	display: table;
+	width: 100%;
+}
+.valign-child{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width: 100%;
+}
+.margin-5{
+	margin:5px !important;
+	border-radius: 5px;
+}
+.item-divider-2 {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	min-height: 30px;
+	background-color: #e8e8e8;
+	color: #444;
+	font-weight: 300;
+}
+.list-side-space .list{
+	margin-left:5px;
+	margin-right:5px;
+	border-radius: 10px;
+}
+.floatButton{
+	z-index: 50;
+	position: fixed;
+	bottom: 5%;
+	right:7%;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	/* border: 1px solid #f06424; */
+	box-shadow: 1px 2px 5px 1px gray;
+	text-align: center;
+	background-color: #1565C0 !important;
+}
+.floatButton.button:before{
+	line-height: 55px;
+}
+.login-label {
+	border: none;
+	border-bottom: 1px solid #ccc;
+	padding-left: 0;
+	/*text-align: center;*/
+}
+.border-rounded{
+	border: 1px solid #ddd;
+	border-radius: 10px;
+}
+.categories-filter {
+	overflow: scroll;
+	white-space: nowrap !important;
+}
+
+.update-price{
+	padding-left: 10px !important;
+	border-bottom: 1px solid gray !important;
+	max-width: 50% !important;
+	display: inline-block !important;
+}
+
+.update-names{
+	border-bottom: 1px solid gray !important;
+	max-width: 70% !important;
+	/*display: inline-block !important;*/
+}
+.green{
+	color:green !important;
+}
+.orange{
+	color: orange !important;
+}
+.button.button-green {
+	border-color: transparent;
+	background-color: green;
+	color: #fff;
+}
+.button.button-green:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.button.button-green.active, .button.button-green.activated {
+	background-color: darkgreen;
+}
+.button.button-green.button-clear {
+	border-color: transparent;
+	background: none;
+	box-shadow: none;
+	color: green;
+}
+.button.button-green.button-icon {
+	border-color: transparent;
+	background: none;
+}
+.button.button-green.button-outline {
+	border-color: green;
+	background: transparent;
+	color: green;
+}
+.button.button-green.button-outline.active, .button.button-green.button-outline.activated {
+	background-color: green;
+	box-shadow: none;
+	color: #fff;
+}
+.mealDeal{
+	/*min-height: 170px;*/
+	position: absolute;
+	bottom: 44px;
+	left:0;
+}
+.mealDealPrice{
+	position: absolute;
+	bottom: 0;
+	width: 95%;
+	left: 0;
+}
+.mealdealcard{
+	height: 100%;
+	background-color: white;
+	border: 1px solid lightgray;
+	box-shadow: 2px 2px 5px;
+}
+.mealdeal-item .item-content{
+	padding:15px !important;
+}
+.remove-item-option-icon{
+	float: right;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    z-index: 100;
+    font-size: 20px;
+    background: red;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    line-height: 25px;
+}
+.title-image-div{
+	background-color: white;
+	text-align: center;
+	height:200px;
+	padding: 5px;
+}
+.title-image{
+	height: 190px;
+	width: auto;
+}
+.profile-image-div{
+	background-color: white;
+	text-align: center;
+	height:200px;
+}
+.profile-image{
+	height: 200px;
+	width: auto;
+}
+.remove-image-icon{
+	position: absolute;
+	right: 10px;
+	top:10px;
+	background-color: rgba(255,255,255,0.3);
+	color: #444;
+	height: 40px !important;
+	width: 40px!important;
+	min-height: 40px!important;
+	border-radius: 5px;
+}
+.remove-image-icon:before{
+	line-height: 38px !important;
+}
+.remove-image-icon.button:hover{
+	color: #444;
+}
+.icon-modal{
+	position: absolute;
+	background-color: #fafafa;
+	z-index: 10;
+}
+.icon-list{
+	height:80px;
+	white-space: normal;
+	width: 100%;
+	text-align: center;
+}
+.icon-div{
+	display: inline-block;
+	height: 80px;
+	width: 80px;
+	margin: 5px;
+	text-align: center;
+	border:1px solid lightgray;
+}
+.icon-in-iconDiv{
+	height: 100%;
+	width: 100%;
+}
+.icon-div.selected{
+	border:1px solid red;
+}
+.modal-footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: green;
+	color: white;
+	text-align: center;
+}
+.mealDealLabel{
+	border: 1px solid red;
+	padding: 2px;
+	margin-left: 5px;
+	border-radius: 3px;
+}
+.filter-popup-options{
+	min-width: 90px;
+}
+.filter-popup{
+	min-width: 290px;
+}
+.eating-choice .item-icon-left .item-content {
+	padding-left:0 !important;
+	padding-top:5px !important;
+	padding-bottom:5px !important;
+	background-color: transparent !important;
+	text-align: center;
+}
+
+.eating-choice .item-icon-left i {
+	left:0;
+	padding-top:2px !important;
+	padding-bottom:5px !important;
+	/*right: auto;*/
+	color: #D4201F !important;
+	font-size: 20px !important;
+}
+.eating-choice .item-radio .item-content{
+	padding-right: 0 !important;
+}
+.item-radio input ~ .radio-icon {
+	visibility: visible !important;
+}
+
+.item-radio > .radio-icon:before {
+	content: "" !important; /*deselected - Ionic class = ion-android-radio-button-off */
+}
+
+.item-radio > input[type=radio]:checked ~ .item-content{
+	color: #f06424 !important;
+	/*text-shadow: 0 0 5px #f06424;*/
+}
+.special-condition-row{
+	box-shadow: 2px 2px 5px #888;
+	padding: 5px;
+	background: #fafafa;
+	font-weight: bold;
+}
+.padding-left-40{
+	padding-left: 40px;
+}
+.animate-maxHeight{
+	overflow: hidden;
+	-webkit-transition: max-height 0.3s;
+	-moz-transition: max-height 0.3s ;
+	-o-transition: max-height 0.3s ;
+	transition: max-height 0.3s ;
+}
+.full-maxHeight{
+	max-height: 126px;
+}
+.zero-maxHeight{
+	max-height: 0;
+}
+.dealVisible{
+	bottom:258px;
+}
+.dealHidden{
+	bottom: 135px;
+}
+.cart-options{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.cart-options .option{
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	border: 1px solid;
+	border-radius: 50%;
+	line-height: 30px;
+}
+.offer-options{
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+.offer-options .deactivate{
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	border: 1px solid;
+	border-radius: 50%;
+	line-height: 30px;
+}
+.paypal-mail{
+	border-bottom: 1px solid lightgray!important;
+	margin-right: 30px!important;
+}
+.discounts-bar .item-radio{
+	padding: 5px!important;
+	text-align: center!important;
+	line-height: 20px!important;
+
+}
+.discounts-bar .item-radio .radio-content .radio-icon{
+	padding: 0!important;
+}
+.overflow-v{
+	overflow: visible;
+}
+.margin-0{
+	margin: 0;
+}

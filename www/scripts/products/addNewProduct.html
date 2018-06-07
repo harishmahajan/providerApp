@@ -1,0 +1,372 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<div class="buttons">
+			<button type="button" class="button button-icon icon ion-android-arrow-back" ng-click="pcm.closeModal(); addItemForm.$setUntouched();"></button>
+		</div>
+		<h1 class="title">Add New Item</h1>
+
+	</ion-header-bar>
+	<form name="addItemForm" ng-submit="addItemForm.$valid && pcm.add(); addItemForm.$setUntouched()">
+		<ion-content class="has-header has-footer">
+			<div class="card" style="min-height:200px; max-height: 200px">
+				<ion-slide-box class="home-hello" ng-if="showProductImageSlider" delegate-handle="productImages">
+					<ion-slide ng-repeat="pic in newItem.pictures">
+						<div class="title-image-div relative">
+							<img class="profile-image" ng-src="{{pic}}" style="width:100%; height: 200px" />
+							<button type="button" class="button button-icon icon ion-ios-close-outline remove-image-icon" ng-click="pcm.removeImage(pic)"></button>
+						</div>
+					</ion-slide>
+				</ion-slide-box>
+				<div class="row" ng-if="newItem.pictures.length!=0" style="margin-top: -80px; text-align: right; padding: 10px">
+					<div class="col col-75">
+						<!--<button type="button" class="button button-icon icon ion-ios-plus-outline" ng-click="pcm.addImage('products')" style="padding: 1px 6px; border-radius: 5px; background: grey; opacity: 0.5;"></button>-->
+					</div>
+					<div class="col col-25">
+						<button type="button" class="button button-icon icon ion-ios-plus-outline" ng-click="pcm.addImage('products')" style="padding: 1px 6px; border-radius: 5px; background: grey; opacity: 0.5;"></button>
+					</div>
+				</div>
+				<div class="row" ng-if="newItem.pictures.length==0">
+					<div class="col text-center" style="margin-top:20%">
+						<button type="button" class="button button-calm button-clear" ng-click="pcm.addImage('products')">Upload Image
+					</button>
+					</div>
+				</div>
+			</div>
+			<div class="content-inner">
+				<div class="row row-no-padding">
+					<div class="col">
+						<div class="list list-inset margin-top-0 transparent-bg">
+							<label class="item item-input login-label transparent-bg">
+							<input class="text-large padding-right-5" type="text" placeholder="Item Name" ng-model="newItem.title" name="title" required>
+						</label>
+							<div ng-messages="addItemForm.title.$error" ng-if="addItemForm.title.$invalid && addItemForm.title.$touched" style="font-size: 12px; color:red">
+								<span ng-message="required">
+									Item name is required!
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row row-no-padding margin-bottom-10">
+					<div class="col">
+						<div class="list list-inset margin-top-0 transparent-bg">
+							<label class="item item-input login-label transparent-bg">
+							<input class="padding-right-5" type="text" placeholder="Description" ng-model="newItem.body" name="description">
+						</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="newItem.isFeatured">Featured
+						</ion-checkbox>
+					</div>
+				</div>
+				<div class="list">
+					<label class="item item-input item-select">
+					<div class="input-label">
+						Category
+					</div>
+					<select ng-options="cat as cat.title for cat in pcm.categories" ng-model="newItem.category">
+					</select>
+				</label>
+				</div>
+				<ion-list ng-init="options=false; extras=false; size=false; canAddTo=false;">
+
+					<div class="item item-divider item-icon-right" ng-click="options=!options; extras=false; size=false; canAddTo=false;">
+						<i class="icon ion-android-add"></i> Options
+					</div>
+					<div ng-show="options">
+						<div class="row" ng-show="newItem.standardOptions.length" ng-repeat="itemData in newItem.standardOptions">
+							<div class="col col-40">
+								{{itemData.name}}
+							</div>
+							<div class="col col-40">
+								Featured: {{itemData.selected || false}}
+							</div>
+							<div class="col col-20" style="text-align:right">
+								<button type="button" class="button button-small icon ion-close-circled" ng-click="pcm.removeOption('standard', itemData)"></button>
+							</div>
+						</div>
+						
+							<div class="row">
+								<div class="col col-55">
+									<label class="item item-input login-label transparent-bg"><input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.name"></label>
+									
+								</div>
+								<div class="col">
+									<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="pcm.standard.selected">Featured
+									</ion-checkbox>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<ion-radio name="group" ng-model="pcm.standard.type" value="toggle">
+										Toggle
+									</ion-radio>
+								</div>
+								<div class="col">
+									<ion-radio name="group" ng-model="pcm.standard.type" value="radio">
+										Radio
+									</ion-radio>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<ion-checkbox ng-if="pcm.standard.type=='radio'" class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="pcm.standard.radioMandatory">Mandatory
+									</ion-checkbox>
+								</div>
+							</div>
+							<div ng-if="pcm.standard.type=='radio'">
+								<div class="row">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.radioName1"></label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.radioName2">
+								</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.radioName3">
+								</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.radioName4">
+								</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.radioName5">
+								</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.standard.radioName6">
+								</label>
+									</div>
+								</div>
+							</div>
+							<ion-item class="item-input item-stacked-label">
+								<span class="input-label">Description</span>
+								<textarea rows="3" ng-model="pcm.standard.desc" placeholder="Short description for option">
+								</textarea>
+							</ion-item>
+							<div class="row">
+								<div class="col" style="text-align:right">
+									<button type="button" class="button button-small button-calm button-calm" ng-if="pcm.standard.name" ng-click="pcm.addOption('standard', pcm.standard)">Add Option</button>
+								</div>
+							</div>
+					</div>
+
+					<div class="item item-divider item-icon-right" ng-click="extras=!extras; options=false; size=false; canAddTo=false;">
+						<i class="icon ion-android-add"></i> Extras
+					</div>
+					<div ng-show="extras">
+						<div class="row" ng-show="newItem.extraOptions.length" ng-repeat="itemData in newItem.extraOptions">
+							<div class="col col-25">
+								{{itemData.name}}
+							</div>
+							<div class="col col-25">
+								{{pcm.profile.currency}}{{itemData.value}}
+							</div>
+							<div class="col col-40">
+								Featured: {{itemData.selected || false}}
+							</div>
+							<div class="col col-10" style="text-align:right">
+								<button type="button" class="button button-small button-calm icon ion-close-circled" ng-click="pcm.removeOption('extra', itemData)"></button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-50">
+								<label class="item item-input login-label transparent-bg">
+								<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.name">
+							</label>
+							</div>
+							<div class="col-20">
+								<label class="item item-input login-label transparent-bg">
+								<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.value">
+							</label>
+							</div>
+							<div class="col">
+								<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="pcm.extra.selected">Featured
+								</ion-checkbox>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<ion-radio name="group" ng-model="pcm.extra.type" value="toggle">
+									Toggle
+								</ion-radio>
+							</div>
+							<div class="col">
+								<ion-radio name="group" ng-model="pcm.extra.type" value="radio">
+									Radio
+								</ion-radio>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<ion-checkbox ng-if="pcm.extra.type=='radio'" class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="pcm.extra.radioMandatory">Mandatory
+								</ion-checkbox>
+							</div>
+						</div>
+
+						<div ng-if="pcm.extra.type=='radio'">
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.radioName1">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.radioPrice1">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.radioName2">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.radioPrice2">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.radioName3">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.radioPrice3">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.radioName4">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.radioPrice4">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.radioName5">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.radioPrice5">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="text" placeholder="Option Name" ng-model="pcm.extra.radioName6">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="pcm.extra.radioPrice6">
+								</label>
+								</div>
+							</div>
+						</div>
+						<ion-item class="item-input item-stacked-label">
+							<span class="input-label">Description</span>
+							<textarea rows="3" ng-model="pcm.extra.desc" placeholder="Short description for extra option">
+								</textarea>
+						</ion-item>
+						<div class="row">
+							<div class="col" style="text-align:right">
+								<button type="button" class="button button-small button-calm" ng-if="pcm.extra.name" ng-click="pcm.addOption('extra', pcm.extra)">Add Option</button>
+							</div>
+						</div>
+					</div>
+
+					<div ng-if="newItem.category" class="item item-divider item-icon-right" ng-click="size=!size; options=false; extras=false; canAddTo=false;">
+						Size and prices
+					</div>
+					<div ng-if="newItem.category">
+						<div class="row" ng-repeat="price in newItem.category.varieties">
+							<div class="col">
+								<label class="item item-input login-label transparent-bg padding-0">
+								<input class="text-center" disabled class="padding-right-5" type="text" placeholder="Size" ng-model="price.name"
+									   value="price.name">
+							</label>
+							</div>
+							<div class="col">
+								<label class="item item-input login-label transparent-bg padding-0">
+								{{pcm.currency}} <input class="text-center" class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="price.value">
+							</label>
+							</div>
+						</div>
+						<div class="row">
+							<!--<div class="col">-->
+							<!--<ion-checkbox-->
+							<!--class="filter-checkbox checkbox-assertive text-small item-borderless transparent-bg padding-0"-->
+							<!--ng-model="price.selected">Featured-->
+							<!--</ion-checkbox>-->
+							<!--</div>-->
+
+							<!--<div class="col">
+							<button type="button" class="button button-block button-small button-calm" ng-click="pcm.updatePricesNew(); price={};">Update Prices
+							</button>
+						</div>-->
+						</div>
+					</div>
+
+
+					<!--for special offers-->
+					<!--<div class="item item-divider item-icon-right" ng-click="canAddTo=!canAddTo; size=false; options=false; extras=false;">-->
+					<!--<i class="icon ion-android-add"></i>-->
+					<!--Can Add to-->
+					<!--</div>-->
+					<!--<div ng-show="canAddTo && pcm.profile.offers.length">-->
+					<!--<div class="row" ng-repeat="offer in pcm.profile.offers">-->
+					<!--<div class="col">-->
+					<!--<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless"-->
+					<!--ng-model="newItem.offer.{{offer.name}}">{{offer.name}}-->
+					<!--</ion-checkbox>-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--</div>-->
+
+				</ion-list>
+			</div>
+		</ion-content>
+		<div class="bar bar-footer bar-calm" ng-disabled="addItemForm.$invalid">
+			<!--ng-if="changed"-->
+			<div class="title" style="text-align:center">
+				<button class="button button-clear" type="submit">Create Item</button>
+			</div>
+		</div>
+	</form>
+</ion-modal-view>

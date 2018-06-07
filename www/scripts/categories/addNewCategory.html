@@ -1,0 +1,120 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<div class="buttons">
+			<button class="button button-clear icon ion-android-arrow-back" ng-click="vm.close(); addCategoryForm.$setUntouched();"></button>
+		</div>
+		<h1 class="title">Add New Category</h1>
+
+	</ion-header-bar>
+	<form name="addCategoryForm" ng-submit="!addCategoryForm.$invalid && vm.addCategory(vm.category)">
+		<ion-content class="has-header has-footer">
+			<div class="list card">
+
+				<div class="item">
+					<label class="item item-input login-label transparent-bg">
+					<input class="padding-right-5" type="text" placeholder="Category Name" ng-model="vm.category.title" required name="catName">
+				</label>
+					<div ng-messages="addCategoryForm.catName.$error" ng-if="addCategoryForm.catName.$invalid && addCategoryForm.catName.$touched"
+					 style="font-size: 12px; color:red">
+						<span ng-message="required">Category name is required!</span>
+					</div>
+				</div>
+
+				<div class="item item-image">
+					<img ng-src="{{categoryThumb||'images/categoryDefault.jpg'}}" width="auto" height="250" />
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="vm.category.selected">Featured
+						</ion-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="list card">
+
+				<div class="row">
+					<div class="col text-center">
+						Upload Image
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<button type="button" class="button button-block button-small button-assertive" ng-model="vm.category.thumb" ng-click="vm.getPictureOfCategory()">Gallery
+					</button>
+					</div>
+					<div class="col">
+						<button type="button" class="button button-block button-small button-positive" ng-model="vm.category.thumb" ng-click="vm.iconModal =true">Icons
+					</button>
+					</div>
+				</div>
+			</div>
+			<div class="list card">
+				<div class="row">
+					<div class="col bold">
+						Varieties
+					</div>
+				</div>
+				<div class="row row-center" ng-repeat="variety in varieties">
+					<div class="col bold">
+						<i class="icon ion-record dark padding-right-5"></i> {{variety.name}}
+						<i class="icon ion-close-circled assertive padding-left-10 text-large" ng-click="vm.removeVariety(variety.name)"></i>
+					</div>
+				</div>
+				<div class="row" ng-if="!vm.showVarietyInput">
+					<div class="col text-center">
+						<button type="button" class="button button-outline button-assertive icon icon-left ion-plus " ng-click="vm.showVarietyInput=true">
+						Add New Variety
+					</button>
+					</div>
+				</div>
+
+				<div class="row row-center" ng-if="vm.showVarietyInput">
+					<div class="col col-80">
+						<div class="item">
+							<label class="item item-input login-label transparent-bg">
+							<input class="padding-right-5" type="text" placeholder="Enter variety name"
+								   ng-model="vm.variety">
+						</label>
+						</div>
+					</div>
+					<div class="col col-20 text-center" ng-if="vm.variety">
+						<button type="button" class="button button-icon icon ion-plus text-xxx-large assertive" ng-click="vm.saveNewVariety(vm.variety);vm.showVarietyInput=false;vm.variety=''"></button>
+					</div>
+				</div>
+			</div>
+		</ion-content>
+
+		<div class="icon-modal relative" ng-style="vm.smallModal" ng-if="vm.iconModal">
+			<div class="row row-no-padding">
+				<div class="col col-offset-10 padding-top-10 text-center dark text-large">
+					Select icon
+				</div>
+				<div class="col col-10 text-right">
+					<button type="button" class="button button-icon icon ion-android-close dark" ng-click="vm.iconModal =false"></button>
+				</div>
+			</div>
+			<div class="icon-list">
+				<div class=" icon-div" ng-repeat="icon in vm.iconArray" ng-class="{'selected':selectedIcon==$index}" ng-click="vm.selectIcon($index)">
+					<img ng-src="{{icon.url}}" class="icon-in-iconDiv">
+				</div>
+			</div>
+			<div class="modal-footer" ng-disabled="!selectedIcon" ng-click="vm.selectThisIcon();vm.iconModal =false">
+				<div class="row">
+					<div class="col text-large">
+						Select
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="bar bar-footer bar-calm">
+			<div class="title" style="text-align:center">
+				<button class="button button-clear" type="submit">Create Category</button>
+			</div>
+		</div>
+	</form>
+
+	<!--<ion-footer-bar class="bar-calm" align-title="center" ng-click="vm.addCategory(vm.category)">
+		<h1 class="title">Create Category</h1>
+	</ion-footer-bar>-->
+</ion-modal-view>

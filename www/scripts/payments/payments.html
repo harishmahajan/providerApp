@@ -1,0 +1,70 @@
+<ion-view view-title="Online Payments">
+	<form name="paymentsForm" ng-submit="paymentsForm.$valid && pc.saveChanges();">
+		<ion-content class="has-footer">
+			<div class="row margin-0 padding-top-5">
+				<div class="col dark bold">
+					Online Payments
+				</div>
+			</div>
+			<div class="row row-no-padding">
+				<div class="col">
+					<ion-toggle ng-model="pc.paymentPreferences.onlinePayments" ng-change="pc.detectChange('onlinePayments')">Turn online payments on</ion-toggle>
+				</div>
+			</div>
+			<ion-list>
+				<label class="item item-input item-stacked-label light-bg">
+				<span class="input-label">Please enter your paypal details below</span>
+				<input type="email" ng-model="pc.paymentPreferences.paypalEmail" placeholder="Paypal e-mail" class="light-bg" required minlength="5" maxlength="100" 
+				ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/" name="email" ng-change="pc.detectChange('paypalEmail')">
+			</label>
+				<div ng-messages="paymentsForm.email.$error" ng-if="paymentsForm.email.$invalid && paymentsForm.email.$touched" style="font-size: 12px; color:red; margin-left: 5px;">
+					<span ng-message="pattern">Not a valid e-mail address</span>
+					<span ng-message="required">E-mail is required!</span>
+				</div>
+			</ion-list>
+
+			<ion-list>
+				<label class="item item-input item-stacked-label light-bg">
+				<span class="input-label">Transaction fee on each online payment</span>
+				<input type="number" name="paypalFee" min="0" required ng-model="pc.paymentPreferences.paypalFee" 
+				placeholder="Transaction fee in £" class="light-bg" ng-pattern="/^[0-9]{1,10}$/" ng-change="pc.detectChange('paypalFee')">
+			</label>
+				<div ng-messages="paymentsForm.paypalFee.$error" ng-if="paymentsForm.paypalFee.$invalid && paymentsForm.paypalFee.$touched" style="font-size: 12px; color:red; margin-left: 5px">
+					<span ng-message="pattern">Not a valid fee</span>
+					<span ng-message="required">Please enter an amount</span>
+				</div>
+			</ion-list>
+
+			<div class="row margin-0 margin-top-15 padding-top-5">
+				<div class="col dark bold">
+					Social Discount
+				</div>
+			</div>
+			<div class="row row-no-padding">
+				<div class="col">
+					<ion-toggle ng-model="pc.paymentPreferences.socialDiscountSwitch" ng-change="pc.detectChange('socialDiscountSwitch')">Turn social discount on</ion-toggle>
+				</div>
+			</div>
+
+			<ion-list>
+				<label class="item item-input item-stacked-label light-bg">
+				<span class="input-label">Enter social discount percentage</span>
+				<input type="number" name="sdisc" required min="0" max="100" ng-model="pc.paymentPreferences.socialDiscountPercentage" 
+				placeholder="Discount in %" class="light-bg" ng-pattern="/^[0-9]{1,2}$/" ng-change="pc.detectChange('socialDiscountPercentage')">
+			</label>
+			<div ng-messages="paymentsForm.sdisc.$error" ng-if="paymentsForm.sdisc.$invalid && paymentsForm.sdisc.$touched" style="font-size: 12px; color:red; margin-left: 5px">
+					<span ng-message="pattern">Not a valid discount</span>
+					<span ng-message="required">Please enter an amount</span>
+				</div>
+			</ion-list>
+		</ion-content>
+		<div class="bar bar-footer bar-calm" ng-if="pc.changed">
+			<div class="title" style="text-align:center">
+				<button class="button button-clear" type="submit">Save Changes</button>
+			</div>
+		</div>
+	</form>
+	<!--<ion-footer-bar class="bar-calm" align-title="center" ng-click="pc.saveChanges()">
+		<h1 class="title">Save Changes</h1>
+	</ion-footer-bar>-->
+</ion-view>

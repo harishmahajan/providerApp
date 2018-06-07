@@ -1,0 +1,303 @@
+<ion-view view-title="Happy Hour on {{hh.category}}">
+	<!--<ion-nav-buttons side="left">-->
+	<!--<button class="button button-clear icon ion-android-arrow-back" ng-click="vm.addNewItemModal()"></button>-->
+	<!--</ion-nav-buttons>-->
+	<ion-content overflow-scroll="hidden" class="has-header">
+		<div class="list">
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Offer type
+				</div>
+				<div>
+					<select ng-model="hh.type" ng-change="hh.selectedOfferType(hh.type)">
+						<option selected disabled value="">Select One</option>
+						<option ng-repeat="type in hh.offersType" value="{{type.id}}">{{type.title}}</option>
+					</select>
+				</div>
+			</label>
+		</div>
+		<div ng-if="hh.offerSelected">
+			<div ng-if="hh.type=='1' || hh.type=='4'">
+				<div style="align-content: flex-start; padding-left: 2%">
+					Select Percentage Discount
+				</div>
+				<div class="button-bar discounts-bar">
+					<ion-radio ng-model="hh.percentDiscount" ng-value="10">10%</ion-radio>
+					<ion-radio ng-model="hh.percentDiscount" ng-value="20">20%</ion-radio>
+					<ion-radio ng-model="hh.percentDiscount" ng-value="30">30%</ion-radio>
+					<ion-radio ng-model="hh.percentDiscount" ng-value="40">40%</ion-radio>
+					<ion-radio ng-model="hh.percentDiscount" ng-value="50">50%</ion-radio>
+				</div>
+			</div>
+			<div class="list" ng-if="hh.type=='1'">
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Applicable For
+					</div>
+					<div>
+						<select ng-model="hh.selectedItem" ng-options="item.title for item in hh.menuItems">
+							<option value="" selected>All {{hh.category}}</option>
+						</select>
+					</div>
+				</label>
+			</div>
+			<div class="list" ng-if="hh.type=='4'">
+				<label class="item item-input">
+					<span class="input-label">Orders Over</span>
+					£<input type="number" ng-model="hh.ordersAbove" min="0">
+				</label>
+			</div>
+			<div class="list">
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Effective For
+					</div>
+					<div>
+						<select ng-model="hh.selectedCondition">
+							<option disabled selected value="">Select Duration</option>
+							<option ng-repeat="condition in hh.duration" value="{{condition.id}}">{{condition.title}}</option>
+						</select>
+					</div>
+				</label>
+			</div>
+			<div class="card" ng-if="hh.selectedCondition=='4'">
+				<div class="row" style="text-align: center">
+					<div class="col">Start Time</div>
+					<div class="col">End Time</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col bold">
+						Monday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.mon.selected">
+					</ion-checkbox>
+					<div class="col">
+						<div class="row row-no-padding">
+							<div class="col text-center">
+								<label class="item item-input login-label">
+									<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+										   ng-model="hh.timeCondition.mon.start">
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.mon.end">
+							<span ng-if="hh.timeCondition.mon.end<hh.timeCondition.mon.start">(Tue)</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Tuesday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.tue.selected">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+								   ng-model="hh.timeCondition.tue.start">
+						</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.tue.end">
+							<span ng-if="hh.timeCondition.tue.end<hh.timeCondition.tue.start">(Wed)</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Wednesday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.wed.selected">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+								   ng-model="hh.timeCondition.wed.start">
+						</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.wed.end">
+							<span ng-if="hh.timeCondition.wed.end<hh.timeCondition.wed.start">(Thu)</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Thursday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.thu.selected">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+								   ng-model="hh.timeCondition.thu.start">
+						</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.thu.end">
+							<span ng-if="hh.timeCondition.thu.end<hh.timeCondition.thu.start">(Fri)</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Friday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.fri.selected">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+								   ng-model="hh.timeCondition.fri.start">
+						</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.fri.end">
+							<span ng-if="hh.timeCondition.fri.end<hh.timeCondition.fri.start">(Sat)</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Saturday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.sat.selected">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+								   ng-model="hh.timeCondition.sat.start">
+						</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.sat.end">
+							<span ng-if="hh.timeCondition.sat.end<hh.timeCondition.sat.start">(Sun)</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col bold">
+						Sunday
+					</div>
+				</div>
+				<div class="row">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless padding-left-40" ng-model="hh.timeCondition.sun.selected">
+					</ion-checkbox>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="From"
+								   ng-model="hh.timeCondition.sun.start">
+						</label>
+					</div>
+					<div class="col">
+						<label class="item item-input login-label">
+							<input class="padding-0 border-bottom-lightgray" type="time" placeholder="To"
+								   ng-model="hh.timeCondition.sun.end">
+							<span ng-if="hh.timeCondition.sun.end<hh.timeCondition.sun.start">(Mon)</span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-if="hh.offerActive && !hh.offerSelected">
+			<div class=" card relative" style=" background-color: #1565c0; color: white;padding:10px">
+				<div class="offer-options">
+					<div class="deactivate" ng-click="hh.deactivateOffer()">
+						<i class="icon ion-android-close border-assertive"></i>
+					</div>
+				</div>
+				<div>
+					<h4 style="color: white">Active Offer </h2>
+				</div>
+				<div ng-if="hh.prevOffer.type=='Percentage Discount'">
+					<p ng-if="hh.prevOffer.selectedItem.title!='all'">{{hh.prevOffer.percentDiscount}}% discount on {{hh.prevOffer.selectedItem.title}}</p>
+					<p ng-if="hh.prevOffer.selectedItem.title=='all'">{{hh.prevOffer.percentDiscount}}% discount on all items of {{hh.prevOffer.selectedItem.category}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition !='4'"> Start: {{hh.prevOffer.daysCondition.start| date: 'medium'}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition =='1' || hh.prevOffer.selectedCondition=='2'"> End: {{hh.prevOffer.daysCondition.end| date: 'medium'}}</p>
+				</div>
+				<div ng-if="hh.prevOffer.type=='Buy One Get One Free'">
+					<p>Buy one get one free on all items of {{hh.prevOffer.selectedItem.category}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition !='4'"> Start: {{hh.prevOffer.daysCondition.start| date: 'medium'}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition =='1' || hh.prevOffer.selectedCondition=='2'"> End: {{hh.prevOffer.daysCondition.end| date: 'medium'}}</p>
+				</div>
+				<div ng-if="hh.prevOffer.type=='Buy One Get One Half Price'">
+					<p>Buy one get one half price on all items of {{hh.prevOffer.selectedItem.category}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition !='4'"> Start: {{hh.prevOffer.daysCondition.start| date: 'medium'}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition =='1' || hh.prevOffer.selectedCondition=='2'"> End: {{hh.prevOffer.daysCondition.end| date: 'medium'}}</p>
+				</div>
+				<div ng-if="hh.prevOffer.type=='Orders Over Percent Discount'">
+					<p>{{hh.prevOffer.percentDiscount}}% discount on orders over £ {{hh.prevOffer.ordersAbove}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition !='4'"> Start: {{hh.prevOffer.daysCondition.start| date: 'medium'}}</p>
+					<p ng-if="hh.prevOffer.selectedCondition =='1' || hh.prevOffer.selectedCondition=='2'"> End: {{hh.prevOffer.daysCondition.end| date: 'medium'}}</p>
+				</div>
+				<div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.mon.selected">
+						<p>
+							Monday : {{hh.prevOffer.timeCondition.mon.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.mon.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.tue.selected">
+						<p>
+							Tuesday : {{hh.prevOffer.timeCondition.tue.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.tue.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.wed.selected">
+						<p>
+							Wednesday :{{hh.prevOffer.timeCondition.wed.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.wed.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.thu.selected">
+						<p>
+							Thursday : {{hh.prevOffer.timeCondition.thu.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.thu.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.fri.selected">
+						<p>
+							Friday : {{hh.prevOffer.timeCondition.fri.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.fri.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.sat.selected">
+						<p>
+							Saturday : {{hh.prevOffer.timeCondition.sat.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.sat.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+					<div ng-if="hh.prevOffer.selectedCondition == '4' && hh.prevOffer.timeCondition.sun.selected">
+						<p>
+							Sunday : {{hh.prevOffer.timeCondition.sun.start | date: 'hh:mm a'}} to {{hh.prevOffer.timeCondition.sun.end | date: 'hh:mm a'}}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+	<ion-footer-bar class="bar-calm" align-title="center" ng-click="hh.apply()" ng-if="hh.offerSelected">
+		<h1 class="title">Activate Happy Hour</h1>
+	</ion-footer-bar>
+</ion-view>

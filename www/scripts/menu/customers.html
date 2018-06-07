@@ -1,0 +1,27 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<h1 class="title">Customers</h1>
+		<div class="buttons">
+			<button
+					class="button button-icon icon ion-android-close"
+					ng-click="cc.closeCustomerModal()"></button>
+		</div>
+	</ion-header-bar>
+	<ion-content>
+		<ion-list>
+			<ion-item class="item-divider" ng-if="cc.customerList.length>0">
+				{{cc.customerList.length}} customers
+			</ion-item>
+			<ion-item ng-repeat="customer in cc.customerList">
+				<h2 class="bold">{{customer.fullName}}</h2>
+				<p>{{customer.email}}</p>
+				<p>{{customer.phone}}</p>
+			</ion-item>
+		</ion-list>
+		<div class="row padding-top-25" ng-if="cc.customerList.length==0">
+			<div class="col text-x-large gray text-center">
+				You don't have any customers yet
+			</div>
+		</div>
+	</ion-content>
+</ion-modal-view>

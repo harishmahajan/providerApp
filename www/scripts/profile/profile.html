@@ -1,0 +1,213 @@
+<ion-view view-title="Profile">
+	<ion-content>
+		<div ng-show="vm.profile.profileComplete == 0 || vm.profile.profileComplete == 1">
+			<div class="home-hello">
+				<ion-slide-box class="home-hello" delegate-handle="savedImages">
+					<ion-slide ng-repeat="image in vm.profile.imageURL">
+						<div class="profile-image-div">
+							<img class="profile-image" ng-src="{{image.name}}"/>
+						</div>
+					</ion-slide>
+				</ion-slide-box>
+				<!--<div class="item">-->
+					<!--<h2 class="ellipsis margin-bottom-0 text-x-large">{{vm.profile.storeName}}</h2>-->
+					<!--<p>Specialities</p>-->
+					<!--<p class="bold" ng-repeat="(k,v) in vm.profile.serviceType" ng-show="v">{{k}}</p>-->
+				<!--</div>-->
+			</div>
+			<div class="item">
+				<h2 class="ellipsis margin-bottom-0 text-x-large">{{vm.profile.storeName}}</h2>
+				<p class="bold">{{vm.profile.desc}}</p>
+				<p><b>Speciality: </b>{{vm.profile.speciality}}</p>
+				<p class="bold" >
+					<span ng-repeat="k in vm.serviceTypeArray">{{k|capitalize}}<span ng-if="$index<vm.serviceTypeArray.length-1">, </span></span>
+				</p>
+				<p><b>Minimum order value: </b>£{{vm.profile.minOrder|number:2}}</p>
+			</div>
+			<div class="row ">
+				<div class="col bold gray">
+					Address:
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col gray ">
+					Door No: {{vm.profile.address.door}}
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col gray ">
+					Address Line 1: {{vm.profile.address.line1}}
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col gray ">
+					Address Line 2: {{vm.profile.address.line2}}
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col gray ">
+					Address Line 3: {{vm.profile.address.line3}}
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col gray ">
+					City: {{vm.profile.address.city}}
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col bold gray">
+					Delivery Charges:
+				</div>
+			</div>
+			<div class="row" ng-show="vm.profile.postcodes.length" ng-repeat="postcode in vm.profile.postcodes">
+				<div class="col col-50">
+					Postcode: {{postcode.pin}}
+				</div>
+				<div class="col col-50">
+					Charge: £{{postcode.charge|number:2}}
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col bold gray">
+					Timings:
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.mon.selected" class="row ">
+				<div class="col gray ">
+					Monday : {{vm.profile.time.mon.opening | date: 'hh:mm a'}} to {{vm.profile.time.mon.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.tue.selected" class="row ">
+				<div class="col gray ">
+					Tuesday : {{vm.profile.time.tue.opening | date: 'hh:mm a'}} to {{vm.profile.time.tue.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.wed.selected" class="row ">
+				<div class="col gray ">
+					Wednesday : {{vm.profile.time.wed.opening | date: 'hh:mm a'}} to {{vm.profile.time.wed.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.thu.selected" class="row ">
+				<div class="col gray ">
+					Thursday : {{vm.profile.time.thu.opening | date: 'hh:mm a'}} to {{vm.profile.time.thu.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.fri.selected" class="row ">
+				<div class="col gray ">
+					Friday : {{vm.profile.time.fri.opening | date: 'hh:mm a'}} to {{vm.profile.time.fri.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.sat.selected" class="row ">
+				<div class="col gray ">
+					Saturday : {{vm.profile.time.sat.opening | date: 'hh:mm a'}} to {{vm.profile.time.sat.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+			<div ng-if="vm.profile.time.sun.selected" class="row ">
+				<div class="col gray ">
+					Sunday : {{vm.profile.time.sun.opening | date: 'hh:mm a'}} to {{vm.profile.time.sun.closing | date: 'hh:mm a'}}
+				</div>
+			</div>
+
+			<ion-item class="item-input item-stacked-label">
+				<span class="input-label">Allergy disclaimer</span>
+				<textarea rows="4" class="transparent-bg"
+					ng-disabled="true"
+				  	ng-model="vm.profile.allergyDisclaimer"
+				  	placeholder="Allergy information">
+				</textarea>
+			</ion-item>
+			<ion-item class="item-input item-stacked-label">
+				<span class="input-label">Additional information</span>
+				<textarea rows="4" class="transparent-bg"
+					ng-disabled="true"
+				  	ng-model="vm.profile.addInfo"
+				  	placeholder="Additional information">
+				</textarea>
+			</ion-item>
+			<div class="row">
+				<div class="col gray bold">
+					Food Hygiene Rating:
+				</div>
+			</div>
+			<div class="row">
+				<div class="col text-center">
+					<i class="icon text-xxx-large"
+					   ng-class="{'ion-ios-star energized':vm.profile.fhr>=0,'ion-ios-star-outline':vm.profile.fhr<0}"></i>
+				</div>
+				<div class="col text-center">
+					<i class="icon text-xxx-large"
+					   ng-class="{'ion-ios-star energized':vm.profile.fhr>=1,'ion-ios-star-outline':vm.profile.fhr<1}"></i>
+				</div>
+				<div class="col text-center">
+					<i class="icon text-xxx-large"
+					   ng-class="{'ion-ios-star energized':vm.profile.fhr>=2,'ion-ios-star-outline':vm.profile.fhr<2}"></i>
+				</div>
+				<div class="col text-center">
+					<i class="icon text-xxx-large"
+					   ng-class="{'ion-ios-star energized':vm.profile.fhr>=3,'ion-ios-star-outline':vm.profile.fhr<3}"></i>
+				</div>
+				<div class="col text-center">
+					<i class="icon text-xxx-large"
+					   ng-class="{'ion-ios-star energized':vm.profile.fhr>=4,'ion-ios-star-outline':vm.profile.fhr<4}"></i>
+				</div>
+				<div class="col text-center">
+					<i class="icon text-xxx-large"
+					   ng-class="{'ion-ios-star energized':vm.profile.fhr==5,'ion-ios-star-outline':vm.profile.fhr<5}"></i>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col text-center">0</div>
+				<div class="col text-center">1</div>
+				<div class="col text-center">2</div>
+				<div class="col text-center">3</div>
+				<div class="col text-center">4</div>
+				<div class="col text-center">5</div>
+			</div>
+			<div class="list">
+				<div class="item item-divider">
+					Categories
+				</div>
+				<div ng-if="!vm.profile.categories.length">
+					No categories yet
+				</div>
+				<div ng-repeat="c in vm.profile.categories" class="item">
+					<div class="row">
+						<div class="col" style="text-overflow: ellipsis;overflow: hidden;">{{c.title}}</div>
+						<div class="col"><b>Featured: </b>{{c.selected}}</div>
+					</div>
+				</div>
+
+				<div class="item item-divider" ng-if="vm.profile.cuisines|filter:{checked:true}.length">
+					Cuisines
+				</div>
+
+				<div ng-repeat="c in vm.profile.cuisines|filter:{checked:true}" class="item" ng-if="vm.profile.cuisines|filter:{checked:true}.length">
+					<div class="row">
+						<div class="col">{{c.title}}</div>
+						<!--<div class="col"><b>Selected: </b>{{c.checked}}</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+		 | http://stackoverflow.com/questions/27239735/ionic-framwork-gridlayout-with-multiple-rows-and-column-on-which-buttons-placed
+		 | http://stackoverflow.com/questions/23779773/angularjs-loops-and-formatting/23780288#23780288
+		 -->
+		<!--<h1 class="padding-left padding-right">{{vm.storeName}}</h1>-->
+		<div class="row margin-top-20" ng-show="vm.profile.profileComplete == -1">
+			<div class="col text-center text-large gray">
+				Welcome to <br><span class="text-xxx-large">Local Menus</span> <br> Provider App
+			</div>
+		</div>
+		<div class="row margin-top-30" ng-show="vm.profile.profileComplete == -1">
+			<div class="col">
+				<button class="button button-block button-calm" ng-click="vm.showModal()">
+					Create Your Profile!!
+				</button>
+			</div>
+		</div>
+	</ion-content>
+	<div class="hidden floatButton button button-icon button-calm icon ion-edit valign-child"
+		 ng-click="vm.showModal()" ng-show="vm.profile.profileComplete == 0 || vm.profile.profileComplete == 1">
+	</div>
+</ion-view>

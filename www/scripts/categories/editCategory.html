@@ -1,0 +1,116 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<div class="buttons">
+			<button class="button button-clear icon ion-android-arrow-back"
+				ng-click="vme.close()"></button>
+		</div>
+		<h1 class="title">Edit Category</h1>
+
+	</ion-header-bar>
+	<ion-content class="has-header has-footer">
+		<div class="list card">
+
+			<div class="item">
+				<label class="item item-input login-label transparent-bg">
+					<input class="padding-right-5" type="text" placeholder="Category Name"
+						   ng-model="selectedCategory.title">
+				</label>
+			</div>
+
+			<div class="item item-image">
+				<img ng-src="{{categoryThumb||'images/categoryDefault.jpg'}}" width="auto" height="250"/>
+			</div>
+			<div class="row">
+				<div class="col">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless"
+								  ng-model="selectedCategory.selected">Featured
+					</ion-checkbox>
+				</div>
+			</div>
+		</div>
+		<div class="list card">
+			<div class="row">
+				<div class="col text-center">
+					Change Image
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button class="button button-block button-small button-assertive" ng-model="selectedCategory.thumb"
+							ng-click="vme.editPictureOfCategory()">
+						Gallery
+					</button>
+				</div>
+				<div class="col">
+					<button class="button button-block button-small button-positive" ng-model="selectedCategory.thumb"
+							ng-click="vme.iconModal =true">Icons
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="list card">
+			<div class="row">
+				<div class="col bold">
+					Varieties
+				</div>
+			</div>
+			<div class="row row-center" ng-repeat="variety in varieties">
+				<div class="col bold">
+					<i class="icon ion-record dark padding-right-5"></i> {{variety.name}}
+					<i class="icon ion-close-circled assertive padding-left-10 text-large" ng-click="vme.removeVariety(variety.name)"></i>
+				</div>
+			</div>
+			<div class="row" ng-if="!vme.showVarietyInput">
+				<div class="col text-center">
+					<button class="button button-outline button-assertive icon icon-left ion-plus " ng-click="vme.showVarietyInput=true">
+						Add New Variety
+					</button>
+				</div>
+			</div>
+
+			<div class="row row-center" ng-if="vme.showVarietyInput">
+				<div class="col col-80">
+					<div class="item">
+						<label class="item item-input login-label transparent-bg">
+							<input class="padding-right-5" type="text" placeholder="Enter variety name"
+								   ng-model="vme.variety">
+						</label>
+					</div>
+				</div>
+				<div class="col col-20 text-center">
+					<button class="button button-icon icon ion-plus text-xxx-large assertive"
+							ng-click="vme.saveNewVariety(vme.variety);vme.showVarietyInput=false;vme.variety=''"></button>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+	<div class="icon-modal relative" ng-style="vme.smallModal" ng-if="vme.iconModal">
+		<div class="row row-no-padding">
+			<div class="col col-offset-10 padding-top-10 text-center dark text-large">
+				Select icon
+			</div>
+			<div class="col col-10 text-right">
+				<button class="button button-icon icon ion-android-close dark" ng-click="vme.iconModal =false"></button>
+			</div>
+		</div>
+		<div class="icon-list">
+			<div class=" icon-div" ng-repeat="icon in vme.iconArray"
+				 ng-class="{'selected':selectedIcon==$index}"
+				 ng-click="vme.selectIcon($index)">
+				<img ng-src="{{icon.url}}" class="icon-in-iconDiv">
+			</div>
+		</div>
+		<div class="modal-footer" ng-disabled="!selectedIcon" ng-click="vme.selectThisIcon();vme.iconModal =false">
+			<div class="row">
+				<div class="col text-large">
+					Select
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<ion-footer-bar class="bar-stable" align-title="center" ng-click="vme.applyEdits(vme.category); vme.category={}">-->
+	<ion-footer-bar class="bar-calm" align-title="center"
+					ng-click="vme.editSelectedCategory(selectedCategory)">
+		<h1 class="title">Save Changes</h1>
+	</ion-footer-bar>
+</ion-modal-view>

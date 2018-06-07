@@ -1,0 +1,136 @@
+<ion-view view-title={{vm.pageTitle}}>
+	<ion-nav-buttons side="right" >
+		<button ng-if="!vm.specialOfferPage" class="button button-icon icon ion-android-add" ng-click="vm.addNewItemModal()"></button>
+		<button ng-if="vm.specialOfferPage" class="button button-icon icon ion-android-add" ng-click="vm.addSpecialItemModal()"></button>
+	</ion-nav-buttons>
+
+	<ion-content>
+		<ion-item class="item-divider-2" ng-if="!vm.specialOfferPage">
+			Offers ({{vm.offersLength}})
+		</ion-item>
+		<ion-list can-swipe="true" ng-if="!vm.specialOfferPage">
+			<ion-item ng-repeat="i in vm.offers" class="mealdeal-item">
+				<div class="row row-no-padding padding-left-5 padding-bottom-5">
+					<div class="col bold text-medium">
+						{{i.name}} - <span class="bold assertive">£{{i.price|number:2}}</span>
+					</div>
+				</div>
+				<div class="row row-center row-no-padding">
+					<div class="col gray">
+						<div class="row" ng-repeat="selected in i.buyItems" ng-if="selected.price">
+							<h3>{{selected.quantity || '1'}} X {{selected.offerPrice}} {{selected.title}}</h3>
+						</div>
+						<div class="row gray" ng-repeat="selected in i.buyItems" ng-if="!selected.price">
+							<h3>Any {{selected.quantityCat || '1'}} x {{selected.variety.name}} {{selected.title}} </h3>
+						</div>
+					</div>
+					<!--<div class="col col-33">-->
+						<!--<h2 class="bold assertive text-center">£{{i.price|number:2}}</h2>-->
+					<!--</div>-->
+				</div>
+				<div class="row">
+					<div class="col padding-left-0 italic">
+						{{i.condition}}
+					</div>
+				</div>
+				<div class="cart-options">
+					<div class="option" ng-click="vm.remove(i)">
+						<i class="icon ion-android-close assertive border-assertive">
+						</i>
+					</div>
+					<div class="option margin-top-10" ng-click="vm.editItemModal(i)">
+						<i class="icon ion-edit"></i>
+					</div>
+				</div>
+				<!--<ion-option-button class="button-calm" ng-click="vm.editItemModal(i)">-->
+					<!--Edit-->
+				<!--</ion-option-button>-->
+				<!--<ion-option-button class="button-assertive" ng-click="vm.remove(i)">-->
+					<!--Delete-->
+				<!--</ion-option-button>-->
+			</ion-item>
+			<div ng-if="vm.offersLength==0">
+				<div class="row margin-top-30">
+					<div class="col text-center text-medium dark">
+						No Meal Deals Created
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col text-center text-xxx-large stable">
+						<span ng-click="vm.addNewItemModal()">Create one now</span>
+					</div>
+				</div>
+			</div>
+		</ion-list>
+
+		<ion-item class="item-divider-2" ng-if="vm.specialOfferPage">
+			Offers ({{vm.specialOffersLength}})
+		</ion-item>
+		<ion-list can-swipe="true" ng-if="vm.specialOfferPage">
+			<ion-item ng-repeat="i in vm.specialOffers" class="mealdeal-item">
+				<div class="row row-no-padding padding-left-5 padding-bottom-5">
+					<div class="col bold text-medium">
+						{{i.name}} - <span class="bold assertive">£{{i.price|number:2}}</span>
+					</div>
+				</div>
+				<div class="row row-center row-no-padding">
+					<div class="col gray">
+						<div class="row" ng-repeat="selected in i.buyItems" ng-if="selected.price">
+							<h3>{{selected.quantity || '1'}} X {{selected.offerPrice}} {{selected.title}}</h3>
+						</div>
+						<div class="row gray" ng-repeat="selected in i.buyItems" ng-if="!selected.price">
+							<h3>Any {{selected.quantityCat || '1'}} x {{selected.variety.name}} {{selected.title}} </h3>
+						</div>
+					</div>
+					<!--<div class="col col-33">-->
+						<!--<h2 class="bold assertive text-center">£{{i.price|number:2}}</h2>-->
+					<!--</div>-->
+				</div>
+				<div class="row row-no-padding padding-vertical padding-left-5 text-small green" ng-if="i.conditionName">
+					<div class="col italic" ng-if="i.conditionName=='time'">
+						From {{i.conditionOptions.a|date:'hh:mm a'}} to {{i.conditionOptions.b|date:'hh:mm a'}} only
+					</div>
+					<div class="col italic" ng-if="i.conditionName=='type'">
+						For {{i.conditionOptions.a}} only
+					</div>
+					<div class="col italic" ng-if="i.conditionName=='amount'">
+						For orders above £{{i.conditionOptions.a}} only
+					</div>
+				</div>
+
+				<!--<div class="row">-->
+				<!--<div class="col col-center">-->
+				<!--<b>Featured: </b>{{i.selected}}-->
+				<!--</div>-->
+				<!--</div>-->
+				<div class="cart-options">
+					<div class="option" ng-click="vm.removeSpecial(i)">
+						<i class="icon ion-android-close assertive border-assertive">
+						</i>
+					</div>
+					<div class="option margin-top-10" ng-click="vm.editSpecialItemModal(i)">
+						<i class="icon ion-edit"></i>
+					</div>
+				</div>
+				<!--<ion-option-button class="button-calm" ng-click="vm.editSpecialItemModal(i)">-->
+					<!--Edit-->
+				<!--</ion-option-button>-->
+				<!--<ion-option-button class="button-assertive" ng-click="vm.removeSpecial(i)">-->
+					<!--Delete-->
+				<!--</ion-option-button>-->
+			</ion-item>
+			<div ng-if="vm.specialOffersLength==0">
+				<div class="row margin-top-30">
+					<div class="col text-center text-medium dark">
+						No Special Offers Created
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col text-center text-xxx-large stable">
+						<span ng-click="vm.addSpecialItemModal()">Create one now</span>
+					</div>
+				</div>
+			</div>
+		</ion-list>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,61 @@
+<ion-view view-title="Add Items">
+	<ion-nav-buttons side="right">
+		<button class="button button-clear icon ion-android-add" ng-click="vm.addNewItemModal()"></button>
+	</ion-nav-buttons>
+
+	<ion-content>
+		<ion-scroll zooming="true" direction="x" scrollbar-x="false" class="categories-filter">
+			<span>
+				<button class="button button-light filter-button" ng-click="vm.showItemsOfCategory('all')">
+					All
+				</button>
+			</span>
+			<span ng-repeat="c in vm.profile.categories">
+				<button class="button button-light filter-button" ng-click="vm.showItemsOfCategory(c.title)">
+					{{c.title}}
+				</button>
+			</span>
+		</ion-scroll>
+
+		<ion-item class="item-divider-2">
+			Items ({{vm.menuItemsLength}})
+		</ion-item>
+
+		<ion-list can-swipe="true">
+			<ion-item class="item item-thumbnail-left item-text-wrap"
+					  ng-repeat="i in vm.menuItems track by $index">
+				<img ng-src="{{i.pictures[0]||'images/categoryDefault.jpg'}}">
+				<!--<i class="icon ion-ios-close-empty assertive"  ng-click="vm.remove(i); $event.stopPropagation();"></i>-->
+				<h2 class="bold">{{i.title}}</h2>
+				<h3 class="gray">{{i.body}}</h3>
+				<p ng-repeat="p in i.price">{{p.name}}: £{{p.value|number:2}}</p>
+				<!--<ion-option-button class="button-balanced" ng-click="vm.duplicateItem(i)">-->
+					<!--Duplicate-->
+				<!--</ion-option-button>-->
+				<div class="cart-options">
+					<div class="option" ng-click="vm.remove(i)">
+						<i class="icon ion-android-close assertive border-assertive">
+						</i>
+					</div>
+					<div class="option margin-top-10" ui-sref="app.product({productId:i.title})">
+						<i class="icon ion-edit"></i>
+					</div>
+				</div>
+				<!--<ion-option-button class="button-assertive" ng-click="vm.remove(i); $event.stopPropagation();">-->
+					<!--Delete-->
+				<!--</ion-option-button>-->
+			</ion-item>
+		</ion-list>
+		<div ng-if="vm.menuItemsLength==0">
+			No items in this category
+		</div>
+
+		<!--<div class="item item-thumbnail-left item-text-wrap" ui-sref="app.product">-->
+			<!--<img src="images/takos.png">-->
+			<!--<h2 class="bold">Takos</h2>-->
+			<!--<h3 class="gray">Description</h3>-->
+			<!--<p>$5 per 5 piece</p>-->
+		<!--</div>-->
+
+	</ion-content>
+</ion-view>

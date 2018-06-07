@@ -1,0 +1,70 @@
+<ion-view view-title="Orders" hide-back-button="true">
+	<ion-nav-buttons side="right">
+		<button class="button button-icon icon ion-ios-people" ng-click="sc.showCustomers()"></button>
+	</ion-nav-buttons>
+
+	<ion-content class="padding-0">
+		<ion-list>
+			<ion-item ng-if="sc.pendingOrders" class="item-divider item item-icon-right">
+				<i class="icon ion-android-options light" ng-click="sc.showFilter()"></i>
+				{{sc.pendingOrders}} orders pending
+			</ion-item>
+			<ion-item ng-if="!sc.pendingOrders" class="item-divider item item-icon-right">
+				<i class="icon ion-android-options light" ng-click="sc.showFilter()"></i>
+				No pending orders</ion-item>
+			<ion-item class="item-icon-left padding-bottom-5 margin-5"
+					  ng-repeat="order in sc.orders | orderBy: '-placedTime'| TypeFilter: sc.selectedStatus">
+				<i class="icon"
+				   ng-class="{'ion-android-alarm-clock':order.status!='Cancelled' && order.status!='Pending Review','ion-android-close':order.status=='Cancelled',
+				   'ion-android-checkmark-circle':order.status=='Pending Review','assertive':order.status=='Unattended','orange':order.status=='Processing','green':order.status=='Completed'||order.status=='Pending Review'}"></i>
+				<h2 class=" text-medium" ui-sref="app.home({orderId: order.orderId})">
+					{{order.placedTime | date: 'mediumDate'}}
+					<span class="float-right">{{order.items.length}} items</span>
+				</h2>
+				<h2 class="bold text-large" ui-sref="app.home({orderId: order.orderId})">
+					{{order.placedTime | date: 'shortTime'}}
+				</h2>
+				<p class="gray" ui-sref="app.home({orderId: order.orderId})">{{order.customer.fullName}}</p>
+				<p ui-sref="app.home({orderId: order.orderId})">
+					{{order.customer.address}} - {{order.customer.zipCode}}
+					<!--<span class="float-right">2.5mi</span>-->
+				</p>
+				<div class="border-top-gray calm padding-top-5">
+					{{order.serviceType}}
+					<span class="float-right">£{{order.finalAmount|number:2}}</span>
+				</div>
+			</ion-item>
+			<!--<ion-item class="item-icon-left padding-bottom-5 margin-5">-->
+			<!--<i class="icon ion-android-alarm-clock energized"></i>-->
+			<!--<h2 class="bold text-medium" ui-sref="app.home">7:30 PM-->
+			<!--<span class="float-right"> 3 items</span>-->
+			<!--</h2>-->
+			<!--<p class="gray" ui-sref="app.home">Description</p>-->
+			<!--<p ui-sref="app.home">-->
+			<!--Address location-->
+			<!--<span class="float-right">2.5mi</span>-->
+			<!--</p>-->
+			<!--<div class="border-top-gray calm padding-top-5">-->
+			<!--Home-delivery-->
+			<!--<span class="float-right">$20</span>-->
+
+			<!--</div>-->
+			<!--</ion-item>-->
+			<!--<ion-item class="item-icon-left padding-bottom-5 margin-5">-->
+			<!--<i class="icon ion-android-alarm-clock positive"></i>-->
+			<!--<h2 class="bold text-medium" ui-sref="app.home">6:30 PM-->
+			<!--<span class="float-right"> 2 items</span>-->
+			<!--</h2>-->
+			<!--<p class="gray" ui-sref="app.home">Description</p>-->
+			<!--<p ui-sref="app.home">-->
+			<!--Address location-->
+			<!--<span class="float-right">2.5mi</span>-->
+			<!--</p>-->
+			<!--<div class="border-top-gray calm padding-top-5">-->
+			<!--Pick-up-->
+			<!--<span class="float-right">$50</span>-->
+			<!--</div>-->
+			<!--</ion-item>-->
+		</ion-list>
+	</ion-content>
+</ion-view>

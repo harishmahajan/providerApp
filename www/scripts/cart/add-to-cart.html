@@ -1,0 +1,9 @@
+<input type="number" pattern="[0-9]*" step="1" style="padding-left: 10px;" ng-model="data.quantity" />
+
+<a class="button button-light" style="margin-top: 5px; width: 45%"
+	ng-click="data.quantity = data.quantity > 2 ? data.quantity - 1 : 1">
+	<i class="icon ion-minus"></i>
+</a>
+<a class="button button-light" style="margin-top: 5px; width: 45%; float: right" ng-click="data.quantity = data.quantity + 1">
+	<i class="icon ion-plus"></i>
+</a>

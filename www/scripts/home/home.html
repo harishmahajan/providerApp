@@ -1,0 +1,125 @@
+<ion-view view-title="Order Details">
+	<ion-nav-buttons side="right">
+		<button class="button button-clear" ng-click="vm.alertBeforeCancel()">Cancel</button>
+	</ion-nav-buttons>
+	<ion-content>
+		<ion-list>
+			<ion-item class="padding-bottom-5 margin-5">
+				<div class="row">
+					<div class="col bold text-medium border-gray text-center"
+					ng-class="{'assertive':vm.order.status=='Unattended','energized':vm.order.status=='Processing',
+					'green':vm.order.status=='Completed' || vm.order.status=='Reviewed',
+					'gray':vm.order.status=='Cancelled'}">
+						{{vm.order.status}}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col text-medium text-center">
+						{{vm.order.placedTime | date: 'mediumDate'}}
+					</div>
+				</div>
+				<h1 class="bold text-center assertive margin-0">
+					<div class="row">
+						<div class="col">
+							{{vm.order.placedTime | date: 'shortTime'}}
+						</div>
+					</div>
+				</h1>
+				<p class="text-center text-medium">{{vm.order.serviceType}}</p>
+				<p class="gray text-center">{{vm.order.customer.fullName}}</p>
+				<p class="gray text-center">Ph: {{vm.order.customer.phone}}</p>
+				<p class="text-center" ng-if="vm.order.customer.notes">{{vm.order.customer.notes}}</p>
+				<p class="text-center" ng-if="vm.order.customer.address">{{vm.order.customer.address}} [{{vm.order.customer.zipCode}}]</p>
+			</ion-item>
+		</ion-list>
+		<div class="row">
+			<div class="col bold text-center text-large">
+				Total: {{vm.order.items.length}} items = £{{vm.order.finalAmount|number:2}}
+			</div>
+		</div>
+
+		<ion-list>
+			<ion-item class="item-divider">
+				Order Details
+			</ion-item>
+		</ion-list>
+
+		<ion-list class="list-side-space" ng-repeat="(k,gi) in vm.groupedItems">
+			<ion-item class="item-divider-2">
+				{{k}} ({{gi.length}})
+			</ion-item>
+			<ion-item class="item-thumbnail-left" ng-repeat="item in gi">
+				<img src="images/categoryDefault.jpg">
+				<p ng-if="item.details.offerDetails.name && !item.details.offerDetails.typeSpecial"
+				   class="gray">{{item.details.offerDetails.name}}
+					<span class="text-small mealDealLabel">Meal Deal</span></i>
+				</p>
+				<p ng-if="item.details.offerDetails.name && item.details.offerDetails.typeSpecial"
+				   class="gray">{{item.details.offerDetails.name}}
+					<span class="text-small mealDealLabel">Special</span></i>
+				</p>
+				<h2 class="bold">{{item.details.name}}</h2>
+
+				<p ng-if="!item.details.mealDealName"> {{item.details.amount}} x {{item.details.quantity}} {{item.details.size}}</p>
+				<p ng-if="item.details.mealDealName">{{item.details.size}} x {{item.details.quantity}} </p>
+				<p class="padding-top-5 margin-top-5 border-top-gray">
+					<p ng-repeat="o in item.options">
+						{{o.name}}
+						<i class="icon ion-checkmark positive"></i>
+					</p>
+				</p>
+			</ion-item>
+			<!--<ion-item class="item-thumbnail-left">-->
+				<!--<img src="images/takos.png">-->
+				<!--<h2 class="bold">Kretan Takos</h2>-->
+				<!--<p class="gray italic">Extra spicy</p>-->
+				<!--<p> $15 x 2 Standard</p>-->
+				<!--<p class="padding-top-5 margin-top-5 border-top-gray">Oregano-->
+					<!--<i class="icon ion-checkmark positive"></i>-->
+				<!--</p>-->
+			<!--</ion-item>-->
+			<!--<ion-item class="item-divider-2">-->
+				<!--Sides (2)-->
+			<!--</ion-item>-->
+			<!--<ion-item class="item-thumbnail-left">-->
+				<!--<img src="images/salad.png">-->
+				<!--<h2 class="bold">Dress finger</h2>-->
+				<!--<p class="gray italic">Chilly Sauce</p>-->
+				<!--<p> $5 x 1 Standard</p>-->
+				<!--<p class="padding-top-5 margin-top-5 border-top-gray">Tomatoes-->
+					<!--<i class="icon ion-checkmark positive"></i>-->
+					<!--Spinach-->
+					<!--<i class="icon ion-checkmark positive"></i>-->
+				<!--</p>-->
+			<!--</ion-item>-->
+			<!--<ion-item class="item-thumbnail-left">-->
+				<!--<img src="images/takos.png">-->
+				<!--<h2 class="bold">Cheese Takos</h2>-->
+				<!--<p class="gray italic">Extra spicy</p>-->
+				<!--<p> $15 x 2 Standard</p>-->
+				<!--<p class="padding-top-5 margin-top-5 border-top-gray">Oregano-->
+					<!--<i class="icon ion-checkmark positive"></i>-->
+				<!--</p>-->
+			<!--</ion-item>-->
+		</ion-list>
+		<div class="row">
+			<div class="col">
+				<button ng-if="vm.order.status=='Unattended'" class="button button-block button-assertive button-shadow icon-left" ng-click="vm.orderAttended()">
+					Accept Order
+				</button>
+				<button ng-if="vm.order.status=='Processing'" class="button button-block button-energized button-shadow icon-left" ng-click="vm.orderComplete()">
+					Order Ready
+				</button>
+				<button ng-if="vm.order.status=='Completed'||vm.order.status=='Pending Review'" class="button button-block button-green button-shadow icon-left" ng-click="vm.requestReview()">
+					Request Review
+				</button>
+				<button disabled ng-if="vm.order.status=='Reviewed'" class="button button-block button-green button-shadow icon-left">
+					Reviewed
+				</button>
+				<button disabled ng-if="vm.order.status=='Cancelled'" class="button button-block button-dark button-shadow icon-left">
+					Cancelled
+				</button>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

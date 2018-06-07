@@ -1,0 +1,552 @@
+<ion-view>
+	<ion-nav-title>{{vm.item.title}}</ion-nav-title>
+	<form name="editProductForm" ng-submit="vm.updateItem()">
+		<ion-content class="has-header has-footer">
+			<ion-slide-box ng-if="vm.showSlider">
+				<ion-slide ng-repeat="pic in vm.item.pictures">
+					<div class="title-image-div blue relative">
+						<img class="title-image" ng-src="{{pic}}" />
+						<button type="button" class="button button-icon icon ion-ios-close-outline remove-image-icon" ng-click="vm.removeImage(pic)"></button>
+					</div>
+				</ion-slide>
+			</ion-slide-box>
+
+			<div class="row div-center" style="width: 60%" ng-if="vm.item.pictures.length">
+				<div class="col balanced text-center text-small">
+					<button type="button" class="button button-block button-positive" ng-click="vm.addImage()">Add more images</button>
+				</div>
+			</div>
+			<div class="row div-center" style="width: 60%" ng-if="!vm.item.pictures.length">
+				<div class="col balanced text-center text-small">
+					<button type="button" class="button button-block button-positive" ng-click="vm.addImage()">Add image</button>
+				</div>
+			</div>
+			<!--<div class="row row-no-padding" ng-if="vm.item.pictures.length" ng-click="vm.updateItemPics()">-->
+			<!--<div class="col balanced text-center text-small">-->
+			<!--update image-->
+			<!--</div>-->
+			<!--</div>-->
+
+			<div class="content-inner">
+				<div class="row row-no-padding">
+					<div class="col">
+						<div class="list list-inset margin-top-0 transparent-bg padding-0">
+							<label class="item item-input login-label transparent-bg padding-0">
+							<input class="text-large padding-right-5" type="text" placeholder="Product Name"
+								   ng-model="vm.item.title" required name="title">
+						</label>
+							<div ng-messages="editProductForm.title.$error" ng-if="editProductForm.title.$invalid && editProductForm.title.$touched"
+							 style="font-size: 12px; color:red">
+								<span ng-message="required">
+									Item title is required!
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row row-no-padding margin-bottom-10">
+					<div class="col">
+						<div class="list list-inset margin-top-0 transparent-bg padding-0">
+							<label class="item item-input login-label transparent-bg padding-0">
+							<input class="padding-right-5" type="text" placeholder="Description"
+								   ng-model="vm.item.body" name="description">
+						</label>
+							<div ng-messages="editProductForm.description.$error" ng-if="editProductForm.description.$invalid && editProductForm.description.$touched"
+							 style="font-size: 12px; color:red">
+								<span ng-message="required">
+									Item description is required!
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="vm.item.isFeatured">is Featured Item
+						</ion-checkbox>
+					</div>
+				</div>
+				<div class="list">
+					<label class="item item-input item-select">
+					<div class="input-label">
+						Category
+					</div>
+					<!--<select ng-model="vm.item.category" ng-change="vm.setSelectedCategory(vm.item.category)">
+						<option ng-repeat="cat in vm.categories" value="{{cat}}">
+							{{cat}}
+						</option>
+					</select>-->
+					<select ng-options="cat as cat.title for cat in vm.categories" ng-model="vm.item.category" ng-change="vm.changedCategory(vm.item.category)">
+					</select>
+				</label>
+				</div>
+				<ion-list ng-init="options=false; extras=false; size=false; canAddTo=false;">
+					<div class="item item-divider item-icon-right" ng-click="options=!options; extras=false; size=false; canAddTo=false;">
+						<i class="icon ion-android-add"></i> Options
+					</div>
+					<div ng-show="options">
+						<div ng-if="!vm.item.standardOptions.length">
+							No standard options yet, add one
+						</div>
+						<ion-item ng-repeat="o in vm.item.standardOptions">
+							<i class="icon ion-close-circled assertive text-xx-large remove-item-option-icon" ng-click="vm.removeOption('standard', o)"></i>
+							<div class="row border-gray">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5 " type="text" placeholder="Option Name"
+										   ng-model="o.name">
+								</label>
+								</div>
+								<div class="col text-right">
+									<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="o.selected">Featured
+									</ion-checkbox>
+								</div>
+							</div>
+							<div ng-if="o.type=='radio'">
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName1">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName2">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName3">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName4">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName5">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName6">
+									</label>
+									</div>
+								</div>
+							</div>
+						</ion-item>
+
+
+						<div class="row">
+							<div class="col">
+								<label class="item item-input login-label transparent-bg padding-0">
+								<input class="padding-right-5" type="text" placeholder="Option Name"
+									   ng-model="standard.name">
+							</label>
+							</div>
+							<div class="col">
+								<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="standard.selected">Featured
+								</ion-checkbox>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<ion-radio name="group" ng-model="standard.type" value="toggle">
+									Toggle
+								</ion-radio>
+							</div>
+							<div class="col">
+								<ion-radio name="group" ng-model="standard.type" value="radio">
+									Radio
+								</ion-radio>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<ion-checkbox ng-if="standard.type=='radio'" class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="standard.radioMandatory">Mandatory
+								</ion-checkbox>
+							</div>
+						</div>
+						<div ng-if="standard.type=='radio'">
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="standard.radioName1">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="standard.radioName2">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="standard.radioName3">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="standard.radioName4">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="standard.radioName5">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="standard.radioName6">
+								</label>
+								</div>
+							</div>
+						</div>
+						<!--<ion-item class="item-input item-stacked-label">-->
+						<!--<span class="input-label">Description</span>-->
+						<!--<textarea rows="3"-->
+						<!--ng-model="standard.desc"-->
+						<!--placeholder="Short description for option">-->
+						<!--</textarea>-->
+						<!--</ion-item>-->
+						<div class="row">
+							<div class="col" style="text-align:right">
+								<button type="button" class="button button-small button-assertive" ng-click="vm.addOption('standard', standard); standard={ type: 'toggle' };">Add
+								Option
+							</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="item item-divider item-icon-right" ng-click="extras=!extras; options=false; size=false; canAddTo=false;">
+						<i class="icon ion-android-add"></i> Extras
+					</div>
+					<div ng-show="extras">
+						<div ng-if="!vm.item.extraOptions.length">
+							No extra options yet, add one
+						</div>
+						<ion-item ng-repeat="o in vm.item.extraOptions">
+
+							<i class="icon ion-close-circled assertive text-xx-large remove-item-option-icon" ng-click="vm.removeOption('extra', o)"></i>
+							<div class="row row-center border-gray">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="o.name">
+								</label>
+								</div>
+								<div class="col col-20">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="o.value">
+								</label>
+								</div>
+								<div class="col">
+									<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="o.selected">Featured
+									</ion-checkbox>
+								</div>
+							</div>
+							<div ng-if="o.type=='radio'">
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName1">
+									</label>
+									</div>
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="number" min="0" placeholder="Price"
+											   ng-model="o.radioPrice1">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName2">
+									</label>
+									</div>
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="number" min="0" placeholder="Price"
+											   ng-model="o.radioPrice2">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName3">
+									</label>
+									</div>
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="number" min="0" placeholder="Price"
+											   ng-model="o.radioPrice3">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0 ">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName4">
+									</label>
+									</div>
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="number" min="0" placeholder="Price"
+											   ng-model="o.radioPrice4">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName5">
+									</label>
+									</div>
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="number" min="0" placeholder="Price"
+											   ng-model="o.radioPrice5">
+									</label>
+									</div>
+								</div>
+								<div class="row row-no-padding">
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="text" placeholder="Option Name"
+											   ng-model="o.radioName6">
+									</label>
+									</div>
+									<div class="col">
+										<label class="item item-input login-label transparent-bg padding-0">
+										<input class="padding-right-5" type="number" min="0" placeholder="Price"
+											   ng-model="o.radioPrice6">
+									</label>
+									</div>
+								</div>
+							</div>
+
+						</ion-item>
+						<div class="row">
+							<div class="col">
+								<label class="item item-input login-label transparent-bg padding-0">
+								<input class="padding-right-5" type="text" placeholder="Option Name"
+									   ng-model="extra.name">
+							</label>
+							</div>
+							<div class="col col-20 ">
+								<label class="item item-input login-label transparent-bg padding-0">
+								<input class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="extra.value">
+							</label>
+							</div>
+							<div class="col">
+								<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="extra.selected">Featured
+								</ion-checkbox>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<ion-radio name="group" ng-model="extra.type" value="toggle">
+									Toggle
+								</ion-radio>
+							</div>
+							<div class="col">
+								<ion-radio name="group" ng-model="extra.type" value="radio">
+									Radio
+								</ion-radio>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<ion-checkbox ng-if="extra.type=='radio'" class="filter-checkbox checkbox-assertive text-small item-borderless" ng-model="extra.radioMandatory">Mandatory
+								</ion-checkbox>
+							</div>
+						</div>
+
+						<div ng-if="extra.type=='radio'">
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="extra.radioName1">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price"
+										   ng-model="extra.radioPrice1">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="extra.radioName2">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price"
+										   ng-model="extra.radioPrice2">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="extra.radioName3">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price"
+										   ng-model="extra.radioPrice3">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="extra.radioName4">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price"
+										   ng-model="extra.radioPrice4">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="extra.radioName5">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price"
+										   ng-model="extra.radioPrice5">
+								</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="text" placeholder="Option Name"
+										   ng-model="extra.radioName6">
+								</label>
+								</div>
+								<div class="col">
+									<label class="item item-input login-label transparent-bg padding-0">
+									<input class="padding-right-5" type="number" min="0" placeholder="Price"
+										   ng-model="extra.radioPrice6">
+								</label>
+								</div>
+							</div>
+						</div>
+
+						<!--<ion-item class="item-input item-stacked-label">-->
+						<!--<span class="input-label">Description</span>-->
+						<!--<textarea rows="3"-->
+						<!--ng-model="extra.desc"-->
+						<!--placeholder="Short description for extra option">-->
+						<!--</textarea>-->
+						<!--</ion-item>-->
+						<div class="row">
+							<div class="col" style="text-align:right">
+								<button type="button" class="button button-small button-assertive" ng-click="vm.addOption('extra', extra); extra={ type: 'toggle' }">Add Option
+							</button>
+							</div>
+						</div>
+					</div>
+
+					<div ng-if="vm.item.category" class="item item-divider item-icon-right" ng-click="size=!size; options=false; extras=false; canAddTo=false;" ng-if="vm.item.category">
+						Size and prices
+					</div>
+					<div ng-if="vm.item.category">
+						<div class="row" ng-repeat="price in vm.item.price">
+							<div class="col">
+								<label class="item item-input login-label transparent-bg padding-0">
+								<input class="text-center" disabled class="padding-right-5" type="text" placeholder="Size" ng-model="price.name"
+								value="price.name">
+							</label>
+							</div>
+							<div class="col">
+								<label class="item item-input login-label transparent-bg padding-0">
+								{{vm.currency}} <input class="text-center" class="padding-right-5" type="number" min="0" placeholder="Price" ng-model="price.value" required name="price">
+							</label>
+								<div ng-messages="editProductForm.price.$error" ng-if="editProductForm.price.$invalid && editProductForm.price.$touched"
+								 style="font-size: 12px; color:red">
+									<span ng-message="required">
+									Price is required!
+								</span>
+								</div>
+							</div>
+						</div>
+						<!--<div class="row">
+						<div class="col" >
+							<button type="button"class="button button-block button-small button-assertive"
+									ng-click="vm.updatePrices(); price={};">Update Prices
+							</button>
+						</div>
+						</div>-->
+					</div>
+				</ion-list>
+			</div>
+
+		</ion-content>
+		<div class="bar bar-footer bar-calm">
+			<!--ng-if="changed"-->
+			<div class="title" style="text-align:center">
+				<button class="button button-clear" type="submit">Update Item</button>
+			</div>
+		</div>
+	</form>
+	<!--<ion-footer-bar class="bar-calm" align-title="center" ng-click="vm.updateItem()">
+		<h1 class="title">Save</h1>
+	</ion-footer-bar>-->
+</ion-view>

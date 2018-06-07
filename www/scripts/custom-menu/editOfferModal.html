@@ -1,0 +1,137 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<button
+			class="button button-icon icon ion-android-arrow-back"
+			ng-click="vme.closeEdit()">
+		</button>
+		<h1 class="title">Edit Meal Deal</h1>
+		<!--<div class="buttons">-->
+			<!--<button-->
+				<!--class="button button-icon icon ion-checkmark"-->
+				<!--ng-click="vme.edit()"></button>-->
+		<!--</div>-->
+	</ion-header-bar>
+	<ion-header-bar class="bar-subheader border-bottom-lightgray">
+		<div class="row">
+			<div class="col text-center text-large" ng-click="vme.showItms()" ng-class="{'assertive':showItmBox,'gray':!showItmBox}">
+				Items
+			</div>
+			<div class="col text-center text-large" ng-click="vme.showCat()" ng-class="{'assertive':!showItmBox,'gray':showItmBox}">
+				Categories
+			</div>
+		</div>
+	</ion-header-bar>
+	<ion-content class="has-header has-footer has-subheader" ng-class="{'dealVisible':vme.optionVisible,'dealHidden':!vme.optionVisible}">
+		<div class="content-inner">
+			<!--<div class="row row-no-padding margin-bottom-10 row-center">
+				<div class="col" ng-if="!vme.conditionStatus">
+					<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless"
+								  ng-model="vme.conditionStatus"
+								  ng-change="vme.applyCondition(vme.conditionStatus)">Apply special condition
+					</ion-checkbox>
+				</div>
+				<div class="col item-text-wrap" ng-if="vme.conditionStatus">
+					- {{vme.condition}}
+				</div>
+				<div class="col col-20" ng-if="vme.conditionStatus">
+					<button class="button button-icon icon ion-close-circled button-light" ng-click="vme.removeCondition();vme.conditionStatus=false"></button>
+				</div>
+			</div>-->
+			<div ng-if="showItmBox">
+				<div class="list" ng-repeat="i in vme.items">
+					<ion-checkbox ng-model="i.checked" ng-change="vme.addToMealDeal(i, i.checked)">
+						{{ i.title }}
+					</ion-checkbox>
+					<div class="row row-no-padding" ng-if="i.checked">
+						<div class="col" ng-repeat="price in i.price">
+							<ion-checkbox ng-model="price.checked"
+										  ng-change="vme.addSizeToMealDealItem(i, price, price.checked);i.priceSelected=true">
+								{{ price.name }}
+							</ion-checkbox>
+						</div>
+					</div>
+					<label class="item item-input transparent-bg" ng-if="i.priceSelected">
+						<input class="padding-right-5" type="number" placeholder="Quantity"
+							   ng-model="i.quantity"
+							   ng-model-options="{debounce: 500}"
+						ng-change="vme.addQuantityToMealDealItem(i.quantity,i)">
+					</label>
+				</div>
+			</div>
+			<div ng-if="!showItmBox">
+				<div class="list" ng-repeat="i in vme.cats">
+					<ion-checkbox ng-model="i.checkedCat" ng-change="vme.addCategoryToMealDeal(i, i.checkedCat)">
+						{{ i.title }}
+					</ion-checkbox>
+					<div class="row row-no-padding" ng-if="i.checkedCat">
+						<div class="col" ng-repeat="variety in i.varieties">
+							<ion-checkbox ng-model="variety.checked" ng-change="vme.addVarietyToMealDealItem(i, variety, variety.checked);i.varietySelected=true">
+								{{ variety.name }}
+							</ion-checkbox>
+						</div>
+					</div>
+					<label class="item item-input transparent-bg" ng-if="i.varietySelected">
+						<input class="padding-right-5" type="number" placeholder="Quantity"
+							   ng-model="i.quantityCat"
+							   ng-model-options="{debounce: 500}"
+							   ng-change="vme.addQuantityToMealDealItem(i.quantityCat,i)">
+					</label>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+	<div class="row row-no-padding mealDeal">
+		<div class="col">
+			<div class="relative mealdealcard" style="height: 100%">
+				<div class="row light-gray-bg">
+					<div class="col col-offset-10 text-center bold">
+						Current meal deal ({{currentMealDeal.length}})
+					</div>
+					<div class="col col-10">
+						<i class="icon ion-ios-arrow-up text-large" ng-if="!vme.optionVisible" ng-click="vme.optionVisible=true"></i>
+						<i class="icon ion-ios-arrow-down text-large" ng-if="vme.optionVisible" ng-click="vme.optionVisible=false"></i>
+					</div>
+				</div>
+				<div class="row margin-0 animate-maxHeight"
+					 ng-class="{'full-maxHeight': vme.optionVisible,'zero-maxHeight':!vme.optionVisible}">
+					<div class="col">
+						<ion-scroll direction="y" zooming="false" style="height: 140px;">
+							<div class="row" ng-repeat="item in currentMealDeal">
+								<div class="col" ng-if="item.price">
+									<i class="icon ion-record dark"></i>
+									{{item.quantity}} X {{item.offerPrice}} {{item.title}}
+								</div>
+							</div>
+							<div class="row" ng-repeat="item in currentMealDeal">
+								<div class="col" ng-if="!item.price">
+									<i class="icon ion-record dark"></i>
+									Any {{item.quantityCat}} x {{item.variety.name}} {{item.title}}
+								</div>
+							</div>
+						</ion-scroll>
+					</div>
+				</div>
+				<div class="row row-no-padding" style="background: linear-gradient(white,lightgray)">
+					<div class="col col-67">
+						<div class="list list-inset margin-0 transparent-bg border-gray">
+							<label class="item item-input login-label transparent-bg">
+								<input class="padding-right-5 text-center" type="text" placeholder="Offer Name" ng-model="vme.item.name">
+							</label>
+						</div>
+					</div>
+					<div class="col col-33">
+						<div class="list list-inset margin-0 transparent-bg border-gray">
+							<label class="item item-input login-label transparent-bg">
+								£ <input class="padding-right-5 text-center" type="number" placeholder="Price" ng-model="vme.item.price">
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ion-footer-bar class="bar-calm" align-title="center"
+					ng-click="vme.edit()">
+		<h1 class="title">Edit Offer</h1>
+	</ion-footer-bar>
+</ion-modal-view>

@@ -1,0 +1,51 @@
+<ion-view view-title="{{vm.categoryName}}">
+	<ion-nav-buttons side="right">
+		<button class="button button-clear icon ion-android-add" ng-click="vm.openModal()"></button>
+	</ion-nav-buttons>
+
+	<ion-content>
+		<div ng-if="vm.products.length==0">
+			<div class="row margin-top-30">
+				<div class="col text-center text-medium gray">
+					No Products yet
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col text-center text-xxx-large stable">
+					<span ng-click="vm.openModal()">Create one now</span>
+				</div>
+			</div>
+		</div>
+		<div ng-if="vm.products.length" class="row">
+			<div class="col col-50 overflow-v" ng-repeat="p in vm.products" >
+				<div class="card relative overflow-v margin-0">
+					<div class="item item-image" ng-click="vm.showProductDetails(vm.products[$index].title)">
+						<img ng-src="{{vm.products[$index].pictures[0]||'images/categoryDefault.jpg'}}">
+					</div>
+
+					<div class="item" ng-click="vm.showProductDetails(vm.products[$index].title)">
+						<h3>{{vm.products[$index].title}}</h3>
+						<h4>{{vm.products[$index].price[0].value | currency : vm.products[$index].price[0].currency : 2}}</h4>
+					</div>
+					<div class="remove-item-option-icon" ng-click="vm.remove(vm.products[$index])">
+						<i class="icon ion-android-close"></i>
+					</div>
+				</div>
+			</div>
+
+			<!--<div ng-style="{'visibility': !!vm.products[$index + 1] ? 'visible' : 'hidden'}" class="card col">
+				<div class="item item-image" ng-click="vm.showProductDetails(vm.products[$index + 1].title)">
+					<img ng-src="{{vm.products[$index + 1].pictures[0]||'images/categoryDefault.jpg'}}">
+				</div>
+
+				<a class="item">
+					<h3>{{vm.products[$index + 1].title}}</h3>
+					<h4>{{vm.products[$index + 1].price[0].value | currency : vm.products[$index + 1].price[0].currency : 2}}</h4>
+					<div class="remove-item-option-icon" ng-click="vm.remove(vm.products[$index+1])">
+						<i class="icon ion-android-close assertive border-assertive"></i>
+					</div>
+				</a>
+			</div>-->
+		</div>
+	</ion-content>
+</ion-view>

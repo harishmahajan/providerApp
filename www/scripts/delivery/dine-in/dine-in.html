@@ -1,0 +1,76 @@
+<ion-view view-title="Dine in">
+	<form novalidate name="deliveryForm">
+		<ion-content>
+			<div class="content-inner">
+				<h1>{{vm.restaurant.name}}</h1>
+				<p>{{vm.restaurant.address}}</p>
+			</div>
+
+			<ion-list>
+				<ion-item class="item-input item-stacked-label">
+					<span class="input-label">Table</span>
+					<input type="text"
+						name="table"
+						ng-minlength="3"
+						ng-model="vm.data.table"
+						placeholder="Table"
+						required/>
+					<p ng-show="deliveryForm.table.$error.required && deliveryForm.table.$dirty"
+						class="error-message">
+						Table fields is required
+					</p>
+					<p class="error-message"
+						ng-show="deliveryForm.table.$error.minlength && deliveryForm.table.$dirty">
+						Table field should be at least 3 characters
+					</p>
+				</ion-item>
+				<ion-item class="item-input item-stacked-label">
+					<span class="input-label">Email</span>
+					<input type="email"
+						name="email"
+						ng-model="vm.data.email"
+						ng-minlength="5"
+						placeholder="Email"
+						required/>
+					<p ng-show="deliveryForm.email.$error.required && deliveryForm.email.$dirty"
+						class="error-message">
+						Email fields is required
+					</p>
+					<p class="error-message"
+						ng-show="(deliveryForm.email.$error.minlength && deliveryForm.email.$dirty)">
+						Email field should be at least 5 characters
+					</p>
+				</ion-item>
+				</ion-item>
+				<ion-item class="item-input item-stacked-label">
+					<span class="input-label">Phone number</span>
+					<input type="tel"
+						name="phone"
+						ng-model="vm.data.phone"
+						ng-minlength="9"
+						ng-maxlength="12"
+						required/>
+					<p ng-show="deliveryForm.phone.$error.required && deliveryForm.phone.$dirty"
+						class="error-message">
+						Phone number field is required
+					</p>
+					<p class="error-message"
+						ng-show="(deliveryForm.phone.$error.minlength || deliveryForm.phone.$error.maxlength) && deliveryForm.phone.$dirty">
+						Phone number should have from 9 to 12 digits
+					</p>
+				</ion-item>
+
+				<ion-item class="item-input item-stacked-label">
+					<span class="input-label">Order notes</span>
+					<textarea rows="6"
+						ng-model="vm.data.notes"
+						name="notes"
+						placeholder="Add notes for this order"></textarea>
+				</ion-item>
+			</ion-list>
+		</ion-content>
+		<div class="bar bar-footer bar-calm" ng-click="vm.confirm(deliveryForm)">
+			<div class="title">Submit</div>
+		</div>
+	</form>
+</ion-view>

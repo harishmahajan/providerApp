@@ -1,0 +1,131 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+		<button
+			class="button button-icon icon ion-android-arrow-back"
+			ng-click="vm.close()">
+		</button>
+		<h1 class="title">Add New Meal Deal</h1>
+		<!--<div class="buttons">-->
+			<!--<button-->
+				<!--class="button button-icon icon ion-checkmark"-->
+				<!--ng-click="vm.add()"></button>-->
+		<!--</div>-->
+	</ion-header-bar>
+	<ion-header-bar class="bar-subheader border-bottom-lightgray">
+		<div class="row">
+			<div class="col text-center text-large" ng-click="vm.showItms()" ng-class="{'assertive':showItmBox,'gray':!showItmBox}">
+				Items
+			</div>
+			<div class="col text-center text-large" ng-click="vm.showCat()" ng-class="{'assertive':!showItmBox,'gray':showItmBox}">
+				Categories
+			</div>
+		</div>
+	</ion-header-bar>
+	<ion-content class="has-header has-footer has-subheader" ng-class="{'dealVisible':vm.optionVisible,'dealHidden':!vm.optionVisible}">
+		<div class="content-inner">
+			<!--<div class="row row-no-padding margin-bottom-10">-->
+				<!--<div class="col">-->
+					<!--<ion-checkbox class="filter-checkbox checkbox-assertive text-small item-borderless"-->
+								  <!--ng-model="vm.condition.status" ng-change="vm.applyCondition(vm.condition.status)">Apply special condition-->
+
+					<!--</ion-checkbox>-->
+				<!--</div>-->
+			<!--</div>-->
+			<div ng-if="showItmBox">
+				<div class="list" ng-repeat="i in vm.items">
+					<ion-checkbox ng-model="i.checked" ng-change="vm.addToMealDeal(i, i.checked)">
+						{{ i.title }}
+					</ion-checkbox>
+					<div class="row row-no-padding" ng-if="i.checked">
+						<div class="col" ng-repeat="price in i.price">
+							<ion-checkbox ng-model="price.checked"
+										  ng-change="vm.addSizeToMealDealItem(i, price, price.checked);i.priceSelected=true">
+								{{ price.name }}
+							</ion-checkbox>
+						</div>
+					</div>
+					<label class="item item-input transparent-bg" ng-if="i.priceSelected">
+						<input class="padding-right-5" type="number" placeholder="Quantity"
+							   ng-model="i.quantity"
+							   ng-model-options="{debounce: 500}"
+						ng-change="vm.addQuantityToMealDealItem(i.quantity,i)">
+					</label>
+				</div>
+			</div>
+			<div ng-if="!showItmBox">
+				<div class="list" ng-repeat="i in vm.cats">
+					<ion-checkbox ng-model="i.checkedCat" ng-change="vm.addCategoryToMealDeal(i, i.checkedCat)">
+						{{ i.title }}
+					</ion-checkbox>
+					<div class="row row-no-padding" ng-if="i.checkedCat">
+						<div class="col" ng-repeat="variety in i.varieties">
+							<ion-checkbox ng-model="variety.checked" ng-change="vm.addVarietyToMealDealItem(i, variety, variety.checked);i.varietySelected=true">
+								{{ variety.name }}
+							</ion-checkbox>
+						</div>
+					</div>
+					<label class="item item-input transparent-bg" ng-if="i.varietySelected">
+						<input class="padding-right-5" type="number" placeholder="Quantity"
+							   ng-model="i.quantityCat"
+							   ng-model-options="{debounce: 500}"
+							   ng-change="vm.addQuantityToMealDealItem(i.quantityCat,i)">
+					</label>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+	<div class="row row-no-padding mealDeal">
+		<div class="col">
+			<div class="relative mealdealcard" style="height: 100%">
+				<div class="row light-gray-bg">
+					<div class="col col-offset-10 text-center bold">
+						Current meal deal ({{currentMealDeal.length}})
+					</div>
+					<div class="col col-10">
+						<i class="icon ion-ios-arrow-up text-large" ng-if="!vm.optionVisible" ng-click="vm.optionVisible=true"></i>
+						<i class="icon ion-ios-arrow-down text-large" ng-if="vm.optionVisible" ng-click="vm.optionVisible=false"></i>
+					</div>
+				</div>
+				<div class="row margin-0 animate-maxHeight"
+					 ng-class="{'full-maxHeight': vm.optionVisible,'zero-maxHeight':!vm.optionVisible}">
+					<div class="col">
+						<ion-scroll direction="y" zooming="false" style="height: 140px;">
+							<div class="row" ng-repeat="item in currentMealDeal">
+								<div class="col" ng-if="item.price">
+									<i class="icon ion-record dark"></i>
+									{{item.quantity}} X {{item.offerPrice}} {{item.title}}
+								</div>
+							</div>
+							<div class="row" ng-repeat="item in currentMealDeal">
+								<div class="col" ng-if="!item.price">
+									<i class="icon ion-record dark"></i>
+									Any {{item.quantityCat}} x {{item.variety.name}} {{item.title}}
+								</div>
+							</div>
+						</ion-scroll>
+					</div>
+				</div>
+				<div class="row row-no-padding" style="background: linear-gradient(white,lightgray)">
+					<div class="col col-67">
+						<div class="list list-inset margin-0 transparent-bg border-gray">
+							<label class="item item-input login-label transparent-bg">
+								<input class="padding-right-5 text-center" type="text" placeholder="Offer Name" ng-model="vm.item.name">
+							</label>
+						</div>
+					</div>
+					<div class="col col-33">
+						<div class="list list-inset margin-0 transparent-bg border-gray">
+							<label class="item item-input login-label transparent-bg">
+								£ <input class="padding-right-5 text-center" type="number" placeholder="Price" ng-model="vm.item.price">
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ion-footer-bar class="bar-calm" align-title="center"
+					ng-click="vm.add()">
+		<h1 class="title">Create Offer</h1>
+	</ion-footer-bar>
+</ion-modal-view>

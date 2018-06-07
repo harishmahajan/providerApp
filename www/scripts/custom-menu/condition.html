@@ -1,0 +1,74 @@
+<div class="filter-popup">
+	<ion-list>
+		<ion-checkbox class="checkbox-assertive" ng-model="vm.timeCondition" ng-change="vm.showHideTimeBox()">Time
+			Condition
+		</ion-checkbox>
+		<div class="row" ng-if="vm.timeCondition">
+			<div class="col text-center">
+				From
+			</div>
+			<div class="col text-center">
+				To
+			</div>
+		</div>
+		<div class="row row-no-padding" ng-if="vm.timeCondition">
+			<div class="col text-center">
+				<label class="item item-input login-label">
+					<input class="text-center padding-right-0" type="time" ng-model="vm.timeConditionOpen">
+				</label>
+			</div>
+			<div class="col text-center">
+				<label class="item item-input login-label">
+					<input class="text-center padding-right-0" type="time" ng-model="vm.timeConditionClose">
+				</label>
+			</div>
+		</div>
+		<ion-checkbox class="checkbox-assertive" ng-model="vm.typeCondition" ng-change="vm.showHideTypeBox()">Service
+			Type Condition
+		</ion-checkbox>
+		<div class="row eating-choice row-no-padding transparent-bg border-bottom-gray border-top-gray"
+			 ng-if="vm.typeCondition">
+			<div class="col filter-popup-options">
+				<label class="item item-icon-left item-radio transparent-bg" style="border: none">
+					<input type="radio" name="group" value="homeDelivery"
+						   ng-model="vm.typeConditionOption">
+					<div class="item-content transparent-bg bold" style="margin-left:0px">
+						Delivery
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label>
+			</div>
+			<div class="col filter-popup-options">
+				<label class="item item-icon-left item-radio transparent-bg" style="border: none">
+					<input type="radio" name="group" value="pickUp" ng-model="vm.typeConditionOption">
+					<div class="item-content transparent-bg bold">
+						Collection
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label>
+			</div>
+			<div class="col filter-popup-options">
+				<label class="item item-icon-left item-radio transparent-bg" style="border: none">
+					<input type="radio" name="group" value="dineIn" ng-model="vm.typeConditionOption">
+					<div class="item-content transparent-bg bold">
+						Eat-in
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label>
+			</div>
+		</div>
+		<ion-checkbox class="checkbox-assertive" ng-model="vm.amountCondition" ng-change="vm.showHideAmountBox()">Amount
+			Condition
+		</ion-checkbox>
+
+		<div class="row" ng-if="vm.amountCondition">
+			<div class="col item-text-wrap">
+				Above this amount the selected items will be offered free to customer
+			</div>
+		</div>
+		<label class="item item-input transparent-bg" ng-if="vm.amountCondition">
+			<input type="text" placeholder="Amount"
+				   ng-model="vm.amountConditionAmount">
+		</label>
+	</ion-list>
+</div>
