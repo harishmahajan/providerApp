@@ -135,3 +135,6 @@ Install [Ionic View](http://view.ionic.io/) and preview the app on your mobile d
 ## Third Party Licences
 * [Apache License](http://www.apache.org/licenses/)
 * [MIT License](https://opensource.org/licenses/MIT)
+
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/HarishMahajan)
